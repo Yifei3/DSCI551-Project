@@ -4,12 +4,16 @@ from sqlalchemy import create_engine
 import pymysql
 import pandas as pd
 
+# create user dsci551@localhost identified by "Dsci-551";
+# grant all privileges on student1.* to dsci551@localhost;
+# grant all privileges on student2.* to dsci551@localhost;
+# grant all privileges on university.* to dsci551@localhost;
+
+
 DATABASE_CONNECTION_PARAMS = {
-    # 'host': 'ec2-3-16-11-188.us-east-2.compute.amazonaws.com',
     'host': 'localhost',
     'user': 'dsci551',
     'password': 'Dsci-551',
-    'database': 'CINEMA',
 }
 
 def hash_database(student_id):
@@ -45,6 +49,9 @@ def get_info_by_student_id(student_id):
         cursor.close()
     if connection:
         connection.close()
+        
+    if not rows:
+        return
     return rows[0]
 
 
