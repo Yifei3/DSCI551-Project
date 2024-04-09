@@ -22,8 +22,10 @@ CREATE TABLE `students` (
 
 
 CREATE TABLE `course_taken_by` (
-  `course_id` varchar(50) NOT NULL,
-  `student_id` int NOT NULL
+  `course_id` varchar(50),
+  `student_id` int,
+  PRIMARY KEY (`course_id`, `student_id`),
+  FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -218,8 +220,10 @@ CREATE TABLE `students` (
 
 
 CREATE TABLE `course_taken_by` (
-  `course_id` varchar(50) NOT NULL,
-  `student_id` int NOT NULL
+  `course_id` varchar(50),
+  `student_id` int,
+  PRIMARY KEY (`course_id`, `student_id`),
+  FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
