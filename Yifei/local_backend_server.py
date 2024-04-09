@@ -32,10 +32,6 @@ class sql_crud:
         ...
 
     @staticmethod
-    def withdraw_student(ssh, student_id):
-        ...
-
-    @staticmethod
     def student_enroll_course(ssh, student_id, course_id):
         ...
 
