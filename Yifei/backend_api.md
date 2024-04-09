@@ -19,8 +19,6 @@ def get_professor_info(professor_id)
         success: {'professor_id': 1, 'name': 'James Brown', 'gender': 'female', 'email': 'james.brown16@university.edu', 'department_id': 2, 'salary': 86991.23}
         fail: No info found for professor with professor_id 100.
 
-
-
 def enroll_student(student_info ={name, gender, email, department_id, gpa})
     @USAGE: 
         python3 project_backend_basics.py enroll_student '{"name": "jenny", "gender": "female", "email": "jenfsd@gmail.com", "department_id": 3, "gpa": 3.67}'
@@ -30,3 +28,11 @@ def enroll_student(student_info ={name, gender, email, department_id, gpa})
     @ISSUES:
         format check, failed check
 
+def withdraw_student(student_id)
+    @USAGE:
+        python3 project_backend_basics.py withdraw_student 113
+    @RETURN: 
+        success: Delete successful. Rows affected: 1
+ 		fail: No rows were deleted.
+    @ISSUES:
+        course_taken_by change to on delete cascade or do a separate delete.

@@ -78,7 +78,6 @@ class sql_crud:
         }
         print(student_info)
 
-
     @staticmethod
     def get_professor_info(professor_id):
         # Fetches info of a professor that has the specified professor_id.
@@ -108,10 +107,6 @@ class sql_crud:
             'salary': float(salary)
         }
         print(professor_info)
-
-
-
-
 
     @staticmethod
     def get_course_info(course_id):
@@ -144,9 +139,29 @@ class sql_crud:
         }
         print(course_info)
 
+    @staticmethod
+    def withdraw_student(student_id):
+        # Delete the student from databases that has the specified student_id.
+        # INPUT: student_id (int)
+        # RETURN: SUCCESS / FAIL
+        student_id = int(student_id)
+        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
 
+        query = 'DELETE FROM students s WHERE s.student_id = %s'
+        
+        affected_rows  = cursor.execute(query, student_id)
+        connection.commit()
 
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
 
+        if affected_rows > 0:
+            print("Delete successful. Rows affected:", affected_rows)
+        else:
+            print("No rows were deleted.")
 
     @staticmethod
     def enroll_student(student_info):
