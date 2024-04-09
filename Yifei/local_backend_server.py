@@ -36,8 +36,10 @@ class sql_crud:
         print(output)
 
     @staticmethod
-    def student_enroll_course(ssh, student_id, course_id):
-        ...
+    def student_enroll_course(ssh, enroll_info):
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py student_enroll_course {enroll_info}')
+        output = stdout.read().decode('utf-8')
+        print(output)
 
     @staticmethod
     def student_withdraw_course(ssh, student_id, course_id):

@@ -58,10 +58,8 @@ class sql_crud:
         
         cursor.execute(query, student_id)
         rows = cursor.fetchall()
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+        cursor.close()
+        connection.close()
             
         if not rows or not rows[0]:
             print(f"No info found for student with student_id {student_id}.")
@@ -77,6 +75,7 @@ class sql_crud:
             'gpa': float(gpa)
         }
         print(student_info)
+        return
 
     @staticmethod
     def get_professor_info(professor_id):
@@ -107,6 +106,7 @@ class sql_crud:
             'salary': float(salary)
         }
         print(professor_info)
+        return
 
     @staticmethod
     def get_course_info(course_id):
@@ -138,6 +138,7 @@ class sql_crud:
             'description': description
         }
         print(course_info)
+        return
 
     @staticmethod
     def enroll_student(student_info):
@@ -184,6 +185,42 @@ class sql_crud:
             print("Delete successful. Rows affected:", affected_rows)
         else:
             print("No rows were deleted.")
+
+    @staticmethod
+    def student_enroll_course(enroll_info):
+        course_id, student_id = enroll_info.split(',')
+        student_id = int(student_id)
+
+        DATABASE_CONNECTION_PARAMS['database'] = 'university'
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+        query = 'SELECT course_id FROM courses WHERE course_id = %s'
+        cursor.execute(query, course_id)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        if not rows or not rows[0]:
+            print(f"Course with course_id {course_id} is not exist. Course enrollment failed.")
+            return
+
+
+        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+        query = 'INSERT INTO course_taken_by (course_id, student_id) VALUES (%s, %s)'
+    
+        cursor.execute(query, (course_id, student_id))
+        connection.commit()
+        if cursor.rowcount > 0:
+            print(f"course_id {course_id}, student_id {student_id}: insert was successful.")
+        else:
+            print("Course enrollment failed.")
+        cursor.close()
+        connection.close()
+        return
+
+
+
 
 # Use the below main method to test your code
 if __name__ == "__main__":
