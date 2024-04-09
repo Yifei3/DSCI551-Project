@@ -5,13 +5,13 @@ import json
 class sql_crud:
     @staticmethod
     def get_student_info(ssh, student_id):
-        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py {student_id}')
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py get_student_info {student_id}')
         output = stdout.read().decode('utf-8')
         print(output)
 
     @staticmethod
     def get_professor_info(ssh, professor_id):
-        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py {professor_id}')
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py get_professor_info {professor_id}')
         output = stdout.read().decode('utf-8')
         print(output)
 
@@ -23,7 +23,9 @@ class sql_crud:
 
     @staticmethod
     def enroll_student(ssh, student_info): # {student_id, student_name, gender, email, department_id, gpa}
-        ...
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py {student_info}')
+        output = stdout.read().decode('utf-8')
+        print(output)
 
     @staticmethod
     def withdraw_student(ssh, student_id):
