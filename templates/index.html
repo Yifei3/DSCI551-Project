@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>University Staff & Student Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/database.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="box">
+<div class="title">University Staff & Student Database</div>
+<hr width="95%" height="1px"; color="#FFC1C1" border="none"/>
+
+<div class="container">
+        <!-- 添加标签选项 -->
+        <ul class="nav nav-tabs mx-auto d-flex justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#search" onclick="showPage('#search')">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#enroll" onclick="showPage('#enroll')">Enroll</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#withdraw" onclick="showPage('#withdraw')">Withdraw</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#update" onclick="showPage('#update')">Update</a>
+            </li>
+        </ul>
+
+        <!-- 创建 Carousel -->
+        <div id="myCarousel" class="carousel slide mt-4" data-ride="false">
+            <div class="carousel-inner">
+                <!-- Search 页面 -->
+            <div class="carousel-item active" id="search">
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Get student information</label></div>
+                <form action="/get_student_info" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row2">
+            <div class="col-md-12">
+                <div><label>Get professor information</label></div>
+                <form action="/get_professor_info" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Get course information</label></div>
+                <form action="/get_course_info" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter course id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="col-md-12">
+                    <div><label>Search students by GPA</label></div>
+                <form action="/search_students_by_gpa" method="post">
+                <input type="text" name="data" class="search_input" placeholder='Please enter GPA range, e.g. "2.55,3.78" ' required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Search students by professor id</label></div>
+               <form action="/search_students_from_professor_id" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="col-md-12">
+                <div><label>Search classmates by student id</label></div>
+                <form action="/search_classmates_from_student_id" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+                <!-- Enroll 页面 -->
+            <div class="carousel-item" id="enroll">
+        <!-- 此处添加注册页面的内容 -->
+        <div class="row1">
+            <div class="enroll">Enroll student</div>
+
+            <form action="/enroll_student" method="post">
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student name</label>
+                <input type="text" class="enroll_input" name="student_name" placeholder="Please enter student name" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Gender</label>
+                        <select class="enroll_input" name="gender" required>
+                            <option value="" disabled selected>Please select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                <div>
+                    <label class="enroll_label">Email</label>
+                <input type="text" class="enroll_input"  name="email" placeholder="Please enter email" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Department id</label>
+                <input type="number" class="enroll_input"  name="department_id" placeholder='Please enter department id  e.g. "2"' required>
+                    </div>
+                <div>
+                    <label class="enroll_label">GPA</label>
+                <input type="number" class="enroll_input"  name="gpa" placeholder='Please enter GPA   e.g. "3.65"' step="0.01" required>
+                    </div>
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
+            </form>
+        </div>
+
+
+        <div class="row1" style="margin-top: 20px;">
+            <div class="enroll">Student enroll course</div>
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student id</label>
+                <input type="text" class="enroll_input" placeholder="Please enter student id">
+                    </div>
+                <div>
+                    <label class="enroll_label">Course id</label>
+                <input type="text" class="enroll_input" placeholder="Please enter Course id">
+                    </div>
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
+        </div>
+    </div>
+
+
+
+                <!-- Withdraw 页面 -->
+            <div class="carousel-item" id="withdraw">
+        <div class="row1">
+            <div class="col-md-12">
+                    <div><label>Withdraw student</label></div>
+                <div>
+
+                <input type="text" class="search_input" placeholder="Please enter student id">
+                <button type="submit" class="btn btn-primary">withdraw</button>
+
+                    </div>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="col-md-12">
+                    <div><label>Student withdraw course</label></div>
+                <div>
+                <input type="text" class="withdraw_input" placeholder="Please enter student id">
+                <input type="text" class="withdraw_input" placeholder="Please enter course id">
+                <button type="submit" class="btn btn-primary">withdraw</button>
+                    </div>
+            </div>
+        </div>
+                </div>
+
+
+                <!-- Update 页面 -->
+            <div class="carousel-item" id="update">
+        <div class="row1">
+            <div class="enroll">Modify student information</div>
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student id</label>
+                <input type="text" class="enroll_input" placeholder="Please enter student id">
+                    </div>
+                <div>
+                    <label class="enroll_label">Attribute</label>
+                        <select id="attributeSelect"  class="enroll_input">
+                            <option value="" disabled selected>Please select</option>
+                            <option value="student_name">Student name</option>
+                            <option value="gender">Gender</option>
+                            <option value="email">Email</option>
+                            <option value="department_id">Department id</option>
+                            <option value="gpa">GPA</option>
+                        </select>
+                </div>
+                <div id="newValueInput">
+                    <label class="enroll_label">New value</label>
+                <input type="text" id="newValue" class="enroll_input" placeholder="Please enter new value">
+                </div>
+
+                <script>
+                    document.getElementById('attributeSelect').addEventListener('change', function() {
+                        var selectedValue = this.value;
+                        var newValueInput = document.getElementById('newValueInput');
+                        var newValueInputHtml = '<label class="enroll_label">New value</label>';
+
+                        if (selectedValue === 'gender') {
+                             newValueInputHtml += '<select id="newValue" class="enroll_input">' +
+                                    '<option value="" disabled selected>Please select</option>' +
+                                    '<option value="male">Male</option>' +
+                                    '<option value="female">Female</option>' +
+                                    '<option value="other">Other</option>' +
+                                '</select>';
+                        } else {
+                            newValueInputHtml += '<input type="text" id="newValue" class="enroll_input" placeholder="Please enter new value">';
+                        }
+                        newValueInput.innerHTML = newValueInputHtml;
+                    });
+                </script>
+
+
+
+
+
+
+<!--                <div>-->
+<!--                    <label class="enroll_label">Student name</label>-->
+<!--                <input type="text" class="enroll_input" placeholder="Please enter student name">-->
+<!--                    </div>-->
+<!--                <div>-->
+<!--                    <label class="enroll_label">Gender</label>-->
+<!--                <input type="text" class="enroll_input" placeholder="Please enter gender">-->
+<!--                    </div>-->
+<!--                <div>-->
+<!--                    <label class="enroll_label">Email</label>-->
+<!--                <input type="text" class="enroll_input" placeholder="Please enter email">-->
+<!--                    </div>-->
+<!--                <div>-->
+<!--                    <label class="enroll_label">Department id</label>-->
+<!--                <input type="text" class="enroll_input" placeholder="Please enter department id">-->
+<!--                    </div>-->
+<!--                <div>-->
+<!--                    <label class="enroll_label">GPA</label>-->
+<!--                <input type="text" class="enroll_input" placeholder="Please enter GPA">-->
+<!--                    </div>-->
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">modify</button></div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<!--<div class="errorBox" id="errorBox">-->
+<!--    No Records found-->
+<!--</div>-->
+
+<!--<table class="searchtable" id="searchtable" >-->
+<!--  <thead>-->
+<!--    <tr>-->
+<!--      <th onclick="sortTable(0)" style="cursor: pointer; height: 30px; width: 80px; padding: 5px;">Date</th>-->
+<!--      <th onclick="sortTable(1)" style="cursor: pointer; width: 150px;" >Icon</th>-->
+<!--      <th onclick="sortTable(2)" style="cursor: pointer;">Event</th>-->
+<!--      <th onclick="sortTable(3)" style="cursor: pointer; height: 30px; width: 100px; padding: 5px;">Genre</th>-->
+<!--      <th onclick="sortTable(4)" style="cursor: pointer;">Venue</th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--  </tbody>-->
+<!--</table>-->
+<!--    <div class="detailBox" id="detailBox">-->
+<!--        <div class="eventDetail_name" id="eventDetail_name">concert</div>-->
+<!--        <div class="content_box">-->
+<!--            <div class="right_box">-->
+<!--                <div>-->
+<!--                    <label>Date</label>-->
+<!--                    <p id="eventDetail_date"></p>-->
+<!--                </div>-->
+<!--                <div id="Artist/Team">-->
+<!--                    <label>Artist/Team</label>-->
+<!--                    <table class="Artist/Team_table" id="Artist/Team_table">-->
+<!--                        <tbody>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label>Venue</label>-->
+<!--                    <p id="eventDetail_Venue"></p>-->
+
+<!--                </div>-->
+
+<!--                <div id="Genre">-->
+<!--                    <label>Genres</label>-->
+<!--                    <table class= "Genre_table" id="Genre_table">-->
+<!--                        <tbody>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+
+<!--                    <div id="PriceRanges">-->
+<!--                        <label>Price Ranges</label>-->
+<!--                        <p id="eventDetail_PriceRanges"></p>-->
+<!--                    </div>-->
+<!--                    <div class="status">-->
+<!--                        <label>Ticket Status</label>-->
+<!--                        <p id="TicketStatus"></p>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label>Buy Ticket At:</label>-->
+<!--                        <p><a id="BuyTicketAt" target="_blank">Ticketmaster</a><p>-->
+<!--                    </div>-->
+<!--            </div>-->
+
+<!--            <div class="left_box">-->
+<!--                <div id="eventDetail_map">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div id="Show_Venue_Details" class="Show_Venue_Details">-->
+<!--        <p>Show Venue Details</p>-->
+<!--        <p style="margin-top: -1vw;  "><i class="down"></i></p>-->
+<!--    </div>-->
+
+<!--    <div id="venueBox" class="venueBox">-->
+<!--    <div class="venueBox_padding">-->
+<!--        <div class="venue_name" id="venue_name">title</div>-->
+<!--        <hr width="20%" size="1" color="#919191	"/>-->
+<!--        <img id="venue_logo" style="width: 100px;">-->
+<!--        <div class="contents">-->
+<!--            <div class="left_box">-->
+<!--                <p>-->
+<!--                    <label>Address:  </label>-->
+<!--                    <span id="venue_address"></span>-->
+<!--                    <a id="venue_google" target="_blank">Open in Google Maps</a>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <div class="right_box">-->
+<!--                <a id="venue_upcoming" target="_blank">More events at this venue</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    </div>-->
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,566 @@
+body{
+    background-image: url('../static/background.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+.overlay {
+  margin-top:10px;
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.box {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:40px;
+  margin-bottom:40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 600px;
+  height:auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.result_box {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:40px;
+  margin-bottom:40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 800px;
+  height:auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.container {
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:auto;
+    margin-right:auto;
+    justify-content:center;
+    font-family:Calibri;
+    font-size:25px;
+    color:#222222;
+}
+
+.carousel-inner {
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.nav-link {
+    color: #222222!important;
+}
+.nav-link:hover {
+    color: #B5B5B5 !important; /* 鼠标悬停时的颜色 */
+}
+.nav-link.active, .nav-link:focus {
+    color: #EEA2AD !important; /* 被点击时的颜色 */
+}
+
+
+
+.row1 {
+    background-color: rgba(238, 162, 173, 0.3); /* 使用 rgba() 函数定义带有透明度的颜色 */
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top:10px;
+}
+
+
+.row1 .col-md-12 {
+    display: flex;
+    flex-direction: column; /* 垂直布局 */
+}
+
+.row1 .col-md-12 > div {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+
+.row2 {
+    background-color: rgba(205, 155, 155, 0.2); /* 使用 rgba() 函数定义带有透明度的颜色 */
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top:10px;
+}
+
+
+.row2 .col-md-12 {
+    display: flex;
+    flex-direction: column; /* 垂直布局 */
+}
+
+.row2 .col-md-12 > div {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+
+.form{
+    display: flex;
+    align-items: center;
+}
+
+
+.title{
+    margin-top:10px;
+    font-family:Georgia;
+    font-size:30px;
+    color:#222222;
+    text-align:center;
+    font-weight:lighter;
+}
+
+.enroll{
+    margin-top:10px;
+    margin-bottom:20px;
+    font-family:Calibri;
+    font-size:30px;
+    color:#222222;
+    text-align:center;
+    font-weight:lighter;
+}
+
+
+label {
+  font-size: 20px;
+  font-family: Calibri;
+  margin-bottom: 0px;
+  color: #222222;
+  text-align: left
+  margin-left: 20px;
+  margin-right: 20px;;
+}
+
+.enroll_label{
+  width: 150px;
+}
+
+
+input[type="text"],
+input[type="number"],
+
+input{
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+.search_input {
+  width: 300px;
+  margin-right: 50px;
+}
+
+
+.enroll_input{
+  width: 300px;
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+.withdraw_input{
+  width: 180px;
+  margin-right: 20px
+}
+
+.long_input{
+  width: 200px;
+}
+
+select {
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+
+select option{
+    color: #222222;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+  width: 13px;
+  margin-left:20px;
+  margin-bottom: 0px;
+}
+
+
+
+
+
+button[type="submit"] {
+  background-color: #EEA2AD;
+  color: white;
+  width: 80px;
+  height: 33px;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  margin:3px;
+}
+
+
+button[type="submit"]:hover {
+  background-color: #FFAEB9;
+}
+
+button[type="submit"]:active {
+  background-color: #EEA2AD !important;
+}
+
+.button_border{
+margin-top:10px;
+}
+
+
+.searchResults{
+     width:1200px;
+     height:100%;
+     margin-left:auto;
+     margin-right:auto;
+     background-color: rgba(255, 255, 255, 0);
+   }
+
+
+
+table img{
+    width: 200px;
+}
+
+.searchtable{
+    border-collapse: collapse;
+    font-family:Calibri;
+    font-size: 15px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:20px;
+    margin-bottom:20px;
+    width: 700px;
+    text-color: black;
+    text-align: center;
+    background-color: transparent;
+}
+
+
+.searchtable td,th{
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.searchtable thead tr,th{
+    font-family:Calibri;
+    color:balck;
+    font-size: 15px;
+}
+
+
+
+.errorBox{
+      font-family:Calibri;
+      background: white;
+      color: #FFC1C1;
+      text-align: center;
+      padding: 1vw;
+      width:300px;
+      margin: 2vw;
+      margin-top:100px;
+      margin-bottom:100px;
+      margin-left:auto;
+      margin-right:auto;
+      font-weight: bold;
+      font-size: 30px;
+}
+
+
+
+
+.event{
+    cursor: pointer;
+    color: red;
+}
+
+
+.detailBox{
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:50px;
+  margin-bottom:50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 1000px;
+  padding: 10px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  display: none;
+}
+
+.eventDetail_name{
+    font-weight: bold;
+    margin-top:10px;
+    font-family:Calibri;
+    font-size:25px;
+    color:#fff;
+    text-align:center;
+    font-weight:lighter;
+    margin-bottom:20px;
+}
+
+.detailBox .content_box{
+    margin-left:auto;
+    margin-right:auto;
+    display: flex;
+    width: 900px;
+    padding: 20px;
+}
+
+
+.detailBox .content_box .right_box label{
+    font-family:Calibri;
+    font-size: 20px;
+    color: #99ffff;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 3em;
+}
+
+.detailBox .content_box .right_box p {
+    margin: 0px; /* 去除外边距 */
+    padding: 0px; /* 去除内边距 */
+    line-height: 1em;
+    text-decoration: none;
+    color: white;
+    font-family:Calibri;
+    font-size: 15px;
+}
+
+.detailBox .content_box .right_box a{
+    margin: 10px; /* 去除外边距 */
+    padding: 0px; /* 去除内边距 */
+    line-height: 1em;
+    text-decoration: none;
+    color: aqua;
+    font-family:Calibri;
+    font-size: 15px;
+    text-decoration: none;
+    color: aqua;
+}
+
+.detailBox .content_box .right_box{
+    width: 70%;
+}
+
+.detailBox .content_box .left_box{
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.detailBox .content_box .left_box img{
+    width: 400px;
+}
+
+.Artist/Team_table{
+    white-space: nowrap;
+    border-collapse: collapse;
+}
+.Artist/Team_table td,th{
+    white-space: nowrap;
+    border:none;
+    padding:0px;
+}
+
+
+.Artist/Team_table a{
+    white-space: nowrap;
+    margin: 0px;
+    padding: 0px;
+    line-height: 1em;
+    text-decoration: none;
+    color: aqua;
+    font-family:Calibri;
+    font-size: 15px;
+}
+
+.Genre_table span{
+    margin: 0px;
+    padding: 0px;
+    line-height: 1em;
+    text-decoration: none;
+    color: white;
+    font-family:Calibri;
+    font-size: 15px;
+    text-decoration: none;
+
+}
+
+
+.Show_Venue_Details{
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 100px;
+    display:none;
+}
+
+
+
+.Show_Venue_Details p{
+    font-family:Calibri;
+    font-size: 25px;
+    color:white;
+    margin: 10px;
+    padding: 0px;
+    line-height: 1em;
+}
+
+.Show_Venue_Details p hover:{
+    color: pink;
+}
+
+
+
+i {
+  border: 3px solid white;
+  border-width: 0px 1px 1px 0px;
+  display: inline-block;
+  padding: 5px;
+  scale: 3;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+
+
+.venueBox{
+
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:60px;
+    margin-bottom:50px;
+    background-color: white;
+    width: 900px;
+    padding: 10px;
+    border-radius: 15px;
+    display:none;
+}
+
+
+.venueBox_padding{
+
+    margin-left:auto;
+    margin-right:auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border-color: #919191;
+}
+
+.venue_name{
+    font-family:Calibri;
+    margin-top:0px;
+    font-size:25px;
+    color:black;
+    text-align:center;
+    font-weight:lighter;
+}
+
+.venueBox img{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    align-items: center;
+}
+
+.venueBox .contents{
+    margin-left:auto;
+    margin-right:auto;
+    display:flex;
+}
+
+
+.venueBox .contents .left_box{
+    display: grid;
+    align-items: center;
+    width:50%;
+    border-right:1px solid black;
+    border-color: #919191;
+    margin-right:0px;
+}
+.venueBox .contents .right_box{
+    font-family:Calibri;
+    display: grid;
+    width:50%;
+    margin-left: 0px;
+    text-align: center;
+    align-items: center;
+
+
+
+}
+
+
+.venueBox_padding label{
+    font-family:Calibri;
+    font-weight: bold;
+    color: black;
+
+}
+
+.venueBox_padding span{
+    font-family:Calibri;
+}
+
+.venueBox_padding a{
+    font-family:Calibri;
+    text-decoration: none;
+}
