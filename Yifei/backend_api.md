@@ -43,6 +43,4 @@ def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + s
     @RETURN: 
         success: course_id CS105, student_id 13: insert was successful.
  		fail: Course with course_id CS15 is not exist. Course enrollment failed.
-
-    @ISSUES:
-        check whether course_id is exist. x DONE
+              Student with student_id 133 is not exist. Course enrollment failed.

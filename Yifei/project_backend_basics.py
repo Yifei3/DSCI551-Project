@@ -208,15 +208,19 @@ class sql_crud:
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
         cursor = connection.cursor()
         query = 'INSERT INTO course_taken_by (course_id, student_id) VALUES (%s, %s)'
-    
-        cursor.execute(query, (course_id, student_id))
-        connection.commit()
-        if cursor.rowcount > 0:
-            print(f"course_id {course_id}, student_id {student_id}: insert was successful.")
-        else:
-            print("Course enrollment failed.")
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(query, (course_id, student_id))
+            connection.commit()
+            if cursor.rowcount > 0:
+                print(f"course_id {course_id}, student_id {student_id}: insert was successful.")
+            else:
+                print("Course enrollment failed.")
+
+        except pymysql.IntegrityError as e:
+            print(f"Student with student_id {student_id} is not exist. Course enrollment failed.")
+        finally:
+            cursor.close()
+            connection.close()
         return
 
 
