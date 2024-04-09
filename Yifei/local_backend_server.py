@@ -42,7 +42,7 @@ class sql_crud:
         print(output)
 
     @staticmethod
-    def student_withdraw_course(ssh, student_id, course_id):
+    def student_withdraw_course(ssh, enroll_info):
         ...
 
     @staticmethod
