@@ -45,25 +45,23 @@ def get_next_student_id():
 class sql_crud:
     @staticmethod
     def get_student_info(student_id):
-        # """
         # Fetches info of a student that has the specified student_id.
         # INPUT: student_id (int)
         # RETURN: info of that student
         
-        # Sample Terminal Command:python3 project_backend_basics.py 13
-        # Expected Sample Output: 
-        # """
         student_id = int(student_id)
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
         cursor = connection.cursor()
 
         query = 'SELECT * FROM students s WHERE s.student_id = %s'
-
+        
         cursor.execute(query, student_id)
         rows = cursor.fetchall()
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
             
         if not rows or not rows[0]:
             print(f"No info found for student with student_id {student_id}.")
@@ -79,6 +77,76 @@ class sql_crud:
             'gpa': float(gpa)
         }
         print(student_info)
+
+
+    @staticmethod
+    def get_professor_info(professor_id):
+        # Fetches info of a professor that has the specified professor_id.
+        # INPUT: professor_id (int)
+        # RETURN: info of that professor
+        professor_id = int(professor_id)
+        DATABASE_CONNECTION_PARAMS['database'] = 'university'
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM professors p WHERE p.professor_id = %s'
+        cursor.execute(query, professor_id)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+            
+        if not rows or not rows[0]:
+            print(f"No info found for professor with professor_id {professor_id}.")
+            return
+        professor_id, name, gender, email, department_id, salary= list(rows[0])
+        professor_info = {
+            'professor_id': professor_id,
+            'name': name,
+            'gender': gender,
+            'email': email,
+            'department_id': department_id,
+            'salary': float(salary)
+        }
+        print(professor_info)
+
+
+
+
+
+    @staticmethod
+    def get_course_info(course_id):
+        # Fetches info of a course that has the specified course_id.
+        # INPUT: course_id
+        # RETURN: info of that course
+        DATABASE_CONNECTION_PARAMS['database'] = 'university'
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM courses c WHERE c.course_id = %s'
+        cursor.execute(query, course_id)
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+            
+        if not rows or not rows[0]:
+            print(f"No info found for course with course_id {course_id}.")
+            return
+
+        course_id, prof_id, name, department_id, schedule_time, seat_available, description= list(rows[0])
+        course_info = {
+            'course_id': course_id,
+            'prof_id': prof_id,
+            'name': name,
+            'department_id': department_id,
+            'schedule_time': schedule_time,
+            'seat_available': seat_available,
+            'description': description
+        }
+        print(course_info)
+
+
+
+
 
     @staticmethod
     def enroll_student(student_info):
@@ -106,8 +174,8 @@ class sql_crud:
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python project_backend_basics.py '<function_name>' '<student_id>'")
-        # print(sys.argv)
-        # print(len(sys.argv))
+        print(sys.argv)
+        print(len(sys.argv))
         sys.exit(1)
     # print('input length correct')
     method_name = sys.argv[1]

@@ -26,6 +26,7 @@ class sql_crud:
         student_info_json = json.dumps(student_info)
         # print(student_info_json)
         stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py enroll_student \'{student_info_json}\'')
+        print('python3 /home/ubuntu/Project/project_backend_basics.py enroll_student \'' + student_info_json + '\'')
         output = stdout.read().decode('utf-8')
         print(output)
 
