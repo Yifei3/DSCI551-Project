@@ -140,6 +140,28 @@ class sql_crud:
         print(course_info)
 
     @staticmethod
+    def enroll_student(student_info):
+        # print(student_info)
+        student_info_dict = json.loads(student_info)
+        name, gender, email, department_id, gpa = student_info_dict.get("name"), student_info_dict.get("gender"), student_info_dict.get("email"), student_info_dict.get("department_id"), student_info_dict.get("gpa")
+        student_id = get_next_student_id()
+
+        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+        query = 'INSERT INTO students (student_id, name, gender, email, department_id, gpa) VALUES (%s, %s, %s, %s, %s, %s)'
+        cursor.execute(query, (student_id, name, gender, email, department_id, gpa))
+        connection.commit()
+        if cursor.rowcount > 0:
+            print(f"student_id {student_id}: insert was successful.")
+        else:
+            print("Insert failed.")
+
+        cursor.close()
+        connection.close()
+        return
+
+    @staticmethod
     def withdraw_student(student_id):
         # Delete the student from databases that has the specified student_id.
         # INPUT: student_id (int)
@@ -162,28 +184,6 @@ class sql_crud:
             print("Delete successful. Rows affected:", affected_rows)
         else:
             print("No rows were deleted.")
-
-    @staticmethod
-    def enroll_student(student_info):
-        # print(student_info)
-        student_info_dict = json.loads(student_info)
-        name, gender, email, department_id, gpa = student_info_dict.get("name"), student_info_dict.get("gender"), student_info_dict.get("email"), student_info_dict.get("department_id"), student_info_dict.get("gpa")
-        student_id = get_next_student_id()
-
-        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
-        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
-        cursor = connection.cursor()
-        query = 'INSERT INTO students (student_id, name, gender, email, department_id, gpa) VALUES (%s, %s, %s, %s, %s, %s)'
-        cursor.execute(query, (student_id, name, gender, email, department_id, gpa))
-        connection.commit()
-        if cursor.rowcount > 0:
-            print(f"student_id {student_id}: insert was successful.")
-        else:
-            print("Insert failed.")
-
-        cursor.close()
-        connection.close()
-        return
 
 # Use the below main method to test your code
 if __name__ == "__main__":
