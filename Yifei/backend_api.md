@@ -34,8 +34,8 @@ def withdraw_student(student_id)
     @USAGE:
         python3 project_backend_basics.py withdraw_student 113
     @RETURN: 
-        success: Delete successful. Rows affected: 1
- 		fail: No rows were deleted.
+        success: Student with student_id 99 is successfully deleted.
+ 		fail: Delete failed.
     @ISSUES:
         course_taken_by change to on delete cascade or do a separate delete.
 

@@ -48,7 +48,7 @@ class sql_crud:
         print(output)
 
     @staticmethod
-    def search_students_by_gpa(ssh, gpa_range): # [min, max]
+    def search_students_by_gpa(ssh, gpa_range):
         ...
 
     @staticmethod

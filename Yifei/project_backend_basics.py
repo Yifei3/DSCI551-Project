@@ -208,9 +208,9 @@ class sql_crud:
         connection.close()
 
         if affected_rows > 0:
-            print("Delete successful. Rows affected:", affected_rows)
+            print(f"Student with student_id {student_id} is successfully deleted.")
         else:
-            print("No rows were deleted.")
+            print("Delete failed.")
 
     @staticmethod
     def student_enroll_course(enroll_info):
@@ -272,6 +272,25 @@ class sql_crud:
             cursor.close()
             connection.close()
         return
+
+    @staticmethod
+    def search_students_by_gpa(gpa_range):
+        gpa_min, gpa_max = gpa_range.split(',')
+        student_list = []
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+
+            query = 'SELECT * FROM students s WHERE gpa >= %s AND gpa <= %s ORDER BY gpa asc'
+            cursor.execute(query, (gpa_min, gpa_max))
+            rows = cursor.fetchall()
+            print(rows)
+
+
+
+
+
 
 # Use the below main method to test your code
 if __name__ == "__main__":
