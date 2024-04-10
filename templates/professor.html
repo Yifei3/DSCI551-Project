@@ -9,10 +9,40 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Data received:</h1>
-    <p>{{ output }}</p>
 
+<div class="result_box">
 
+<div class="title">University Staff & Student Database</div>
+<hr width="95%" height="1px"; color="#FFC1C1" border="none"/>
+
+<div class="container">
+
+<table class="searchtable">
+        <thead>
+            <tr>
+                <th>Professor ID</th>
+                <th>Professor Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Department ID</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ result['professor_id'] }}</td>
+                <td>{{ result['professor_name'] }}</td>
+                <td>{{ result['gender'] }}</td>
+                <td>{{ result['email'] }}</td>
+                <td>{{ result['department_id'] }}</td>
+                <td>{{ result['salary'] }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

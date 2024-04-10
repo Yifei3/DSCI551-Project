@@ -60,7 +60,7 @@
             <div class="col-md-12">
                 <div><label>Get course information</label></div>
                 <form action="/get_course_info" method="post">
-                <input type="text" name="data" class="search_input" placeholder="Please enter course id" required>
+                <input type="text" name="data" class="search_input" placeholder='Please enter course id, e.g. "CS101"' required>
                 <button type="submit" class="btn btn-primary">search</button>
                     </form>
             </div>
@@ -69,7 +69,7 @@
             <div class="col-md-12">
                     <div><label>Search students by GPA</label></div>
                 <form action="/search_students_by_gpa" method="post">
-                <input type="text" name="data" class="search_input" placeholder='Please enter GPA range, e.g. "2.55,3.78" ' required>
+                <input type="number" name="min_gpa" class="gpa_input" placeholder='Please enter min GPA' step="0.01" required>  <input type="number" name="max_gpa" class="gpa_input" placeholder='Please enter max GPA' step="0.01" required>
                 <button type="submit" class="btn btn-primary">search</button>
                     </form>
             </div>
@@ -100,7 +100,6 @@
         <!-- 此处添加注册页面的内容 -->
         <div class="row1">
             <div class="enroll">Enroll student</div>
-
             <form action="/enroll_student" method="post">
             <div class="col-md-12">
                 <div>
@@ -122,11 +121,11 @@
                     </div>
                 <div>
                     <label class="enroll_label">Department id</label>
-                <input type="number" class="enroll_input"  name="department_id" placeholder='Please enter department id  e.g. "2"' required>
+                <input type="number" class="enroll_input"  name="department_id" placeholder='Please enter department id, e.g. "2"' required>
                     </div>
                 <div>
                     <label class="enroll_label">GPA</label>
-                <input type="number" class="enroll_input"  name="gpa" placeholder='Please enter GPA   e.g. "3.65"' step="0.01" required>
+                <input type="number" class="enroll_input"  name="gpa" placeholder='Please enter GPA, e.g. "3.65"' step="0.01" required>
                     </div>
             </div>
             <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
@@ -136,17 +135,19 @@
 
         <div class="row1" style="margin-top: 20px;">
             <div class="enroll">Student enroll course</div>
+            <form action="/student_enroll_course" method="post">
             <div class="col-md-12">
                 <div>
                     <label class="enroll_label">Student id</label>
-                <input type="text" class="enroll_input" placeholder="Please enter student id">
+                <input type="text" name="student_id" class="enroll_input" placeholder="Please enter student id" required>
                     </div>
                 <div>
                     <label class="enroll_label">Course id</label>
-                <input type="text" class="enroll_input" placeholder="Please enter Course id">
+                <input type="text" name="course_id" class="enroll_input" placeholder="Please enter Course id" required>
                     </div>
             </div>
             <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
+            </form>
         </div>
     </div>
 
@@ -157,22 +158,22 @@
         <div class="row1">
             <div class="col-md-12">
                     <div><label>Withdraw student</label></div>
-                <div>
+                <form action="/withdraw_student" method="post">
 
-                <input type="text" class="search_input" placeholder="Please enter student id">
+                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
                 <button type="submit" class="btn btn-primary">withdraw</button>
 
-                    </div>
+                    </form>
             </div>
         </div>
         <div class="row2">
             <div class="col-md-12">
                     <div><label>Student withdraw course</label></div>
-                <div>
+                <form action="/withdraw_student" method="post">
                 <input type="text" class="withdraw_input" placeholder="Please enter student id">
                 <input type="text" class="withdraw_input" placeholder="Please enter course id">
                 <button type="submit" class="btn btn-primary">withdraw</button>
-                    </div>
+                    </form>
             </div>
         </div>
                 </div>
@@ -256,102 +257,6 @@
         </div>
     </div>
 
-
-
-
-
-<!--<div class="errorBox" id="errorBox">-->
-<!--    No Records found-->
-<!--</div>-->
-
-<!--<table class="searchtable" id="searchtable" >-->
-<!--  <thead>-->
-<!--    <tr>-->
-<!--      <th onclick="sortTable(0)" style="cursor: pointer; height: 30px; width: 80px; padding: 5px;">Date</th>-->
-<!--      <th onclick="sortTable(1)" style="cursor: pointer; width: 150px;" >Icon</th>-->
-<!--      <th onclick="sortTable(2)" style="cursor: pointer;">Event</th>-->
-<!--      <th onclick="sortTable(3)" style="cursor: pointer; height: 30px; width: 100px; padding: 5px;">Genre</th>-->
-<!--      <th onclick="sortTable(4)" style="cursor: pointer;">Venue</th>-->
-<!--    </tr>-->
-<!--  </thead>-->
-<!--  <tbody>-->
-<!--  </tbody>-->
-<!--</table>-->
-<!--    <div class="detailBox" id="detailBox">-->
-<!--        <div class="eventDetail_name" id="eventDetail_name">concert</div>-->
-<!--        <div class="content_box">-->
-<!--            <div class="right_box">-->
-<!--                <div>-->
-<!--                    <label>Date</label>-->
-<!--                    <p id="eventDetail_date"></p>-->
-<!--                </div>-->
-<!--                <div id="Artist/Team">-->
-<!--                    <label>Artist/Team</label>-->
-<!--                    <table class="Artist/Team_table" id="Artist/Team_table">-->
-<!--                        <tbody>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <label>Venue</label>-->
-<!--                    <p id="eventDetail_Venue"></p>-->
-
-<!--                </div>-->
-
-<!--                <div id="Genre">-->
-<!--                    <label>Genres</label>-->
-<!--                    <table class= "Genre_table" id="Genre_table">-->
-<!--                        <tbody>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-
-<!--                    <div id="PriceRanges">-->
-<!--                        <label>Price Ranges</label>-->
-<!--                        <p id="eventDetail_PriceRanges"></p>-->
-<!--                    </div>-->
-<!--                    <div class="status">-->
-<!--                        <label>Ticket Status</label>-->
-<!--                        <p id="TicketStatus"></p>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <label>Buy Ticket At:</label>-->
-<!--                        <p><a id="BuyTicketAt" target="_blank">Ticketmaster</a><p>-->
-<!--                    </div>-->
-<!--            </div>-->
-
-<!--            <div class="left_box">-->
-<!--                <div id="eventDetail_map">-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <div id="Show_Venue_Details" class="Show_Venue_Details">-->
-<!--        <p>Show Venue Details</p>-->
-<!--        <p style="margin-top: -1vw;  "><i class="down"></i></p>-->
-<!--    </div>-->
-
-<!--    <div id="venueBox" class="venueBox">-->
-<!--    <div class="venueBox_padding">-->
-<!--        <div class="venue_name" id="venue_name">title</div>-->
-<!--        <hr width="20%" size="1" color="#919191	"/>-->
-<!--        <img id="venue_logo" style="width: 100px;">-->
-<!--        <div class="contents">-->
-<!--            <div class="left_box">-->
-<!--                <p>-->
-<!--                    <label>Address:  </label>-->
-<!--                    <span id="venue_address"></span>-->
-<!--                    <a id="venue_google" target="_blank">Open in Google Maps</a>-->
-<!--                </p>-->
-<!--            </div>-->
-<!--            <div class="right_box">-->
-<!--                <a id="venue_upcoming" target="_blank">More events at this venue</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    </div>-->
 
 
 </div>
