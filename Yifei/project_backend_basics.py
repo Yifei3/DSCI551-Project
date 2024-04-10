@@ -300,6 +300,40 @@ class sql_crud:
         sorted_tuple = sorted(student_tuple, key=lambda x: x[-1])
         print(sorted_tuple)
 
+    @staticmethod
+    def modify_student_info(student_info):
+        student_info_dict = json.loads(student_info)
+        student_id = student_info_dict['student_id']
+        change_attr, change_value = list(student_info_dict.items())[1][0], list(student_info_dict.items())[1][1]
+
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
+        student_id = int(student_id)
+        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+
+        query = f'UPDATE students s SET {change_attr} = %s WHERE s.student_id = %s'
+        
+        try:
+            cursor.execute(query, (change_value, student_id))
+            connection.commit()
+
+            if cursor.rowcount > 0:
+                print("Update successful.")
+            else:
+                print("Update failed.")
+
+            rows = cursor.fetchall()
+        except Exception as e:
+            # If an exception occurs, rollback the transaction
+            connection.rollback()
+            print("Error:", e)
+        finally:
+            cursor.close()
+            connection.close()
+        return
 
 
 # Use the below main method to test your code

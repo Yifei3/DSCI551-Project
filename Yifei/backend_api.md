@@ -71,4 +71,14 @@ def search_students_by_gpa(gpa_range): #3.50,4.00
                 [(92, 'William Jackson', 'male', 'williamjackson59@university.edu', 2, Decimal('3.93')), (94, 'Elizabeth Hernandez', 'female', 'elizabethhernandez56@university.edu', 2, Decimal('3.93')), (52, 'Karen Jackson', 'female', 'karenjackson100@university.edu', 2, Decimal('3.94')), (5, 'Sarah Rodriguez', 'male', 'sarah233@gmail.com', 3, Decimal('4.00'))]
  		fail: [] for empty result
               Error: gpa value needs to be a float range from 0 to 4.00
-              
+
+def modify_student_info(student_info): #json_string input
+    @USAGE:
+        python3 project_backend_basics.py modify_student_info '{"student_id": 10, "gpa": 3.99}'
+    @RETURN: 
+        success: 
+                Update successful.
+ 		fail: Error: student_id needs to be a positive integer.
+              Update failed.
+              Error: + Exception
+              ...
