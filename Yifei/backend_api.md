@@ -4,6 +4,7 @@ def get_student_info(student_id)
     @RETURN: 
         success: {'student_id': 100, 'student_name': 'Linda Garcia', 'gender': 'female', 'email': 'lindagarcia91@university.edu', 'department_id': 3, 'gpa': 2.14}
         fail: No info found for student with student_id 1001.
+              Error: student_id needs to be a positive integer.
 
 def get_course_info(course_id)
     @USAGE: 
@@ -18,6 +19,7 @@ def get_professor_info(professor_id)
     @RETURN: 
         success: {'professor_id': 1, 'name': 'James Brown', 'gender': 'female', 'email': 'james.brown16@university.edu', 'department_id': 2, 'salary': 86991.23}
         fail: No info found for professor with professor_id 100.
+              Error: professor_id needs to be a positive integer.
 
 def enroll_student(student_info ={name, gender, email, department_id, gpa})
     @USAGE: 

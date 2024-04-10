@@ -18,6 +18,13 @@ DATABASE_CONNECTION_PARAMS = {
 
 STUDENT_DATABASE_SIZE = 2
 
+def is_pos_integer(s):
+    try:
+        int(s)
+        return int(s) > 0
+    except ValueError:
+        return False
+
 def hash_database(student_id):
     if student_id % 100 <= 50 and student_id % 100 != 0:
         return 'student1'
@@ -61,7 +68,9 @@ class sql_crud:
         # Fetches info of a student that has the specified student_id.
         # INPUT: student_id (int)
         # RETURN: info of that student
-        
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
         student_id = int(student_id)
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -95,6 +104,10 @@ class sql_crud:
         # Fetches info of a professor that has the specified professor_id.
         # INPUT: professor_id (int)
         # RETURN: info of that professor
+        if not is_pos_integer(professor_id):
+            print('Error: professor_id needs to be a positive integer.')
+            return
+        
         professor_id = int(professor_id)
         DATABASE_CONNECTION_PARAMS['database'] = 'university'
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
