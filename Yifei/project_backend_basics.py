@@ -25,6 +25,13 @@ def is_pos_integer(s):
     except ValueError:
         return False
 
+def is_gpa_float(s):
+    try:
+        value = float(s)
+        return 0 <= value <= 4.00
+    except ValueError:
+        return False
+
 def hash_database(student_id):
     if student_id % 100 <= 50 and student_id % 100 != 0:
         return 'student1'
@@ -215,13 +222,14 @@ class sql_crud:
     @staticmethod
     def student_enroll_course(enroll_info):
         course_id, student_id = enroll_info.split(',')
-        student_id = int(student_id)
-
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
         if course_exist_check(course_id):
             print(f"Course with course_id {course_id} is not exist. Course enrollment failed.")
             return
 
-
+        student_id = int(student_id)
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
         cursor = connection.cursor()
@@ -276,7 +284,10 @@ class sql_crud:
     @staticmethod
     def search_students_by_gpa(gpa_range):
         gpa_min, gpa_max = gpa_range.split(',')
-        student_list = []
+        if not is_gpa_float(gpa_min) or not is_gpa_float(gpa_max):
+            print('Error: gpa value needs to be a float range from 0 to 4.00')
+            return
+        student_tuple = ()
         for i in range(STUDENT_DATABASE_SIZE):
             DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
             connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -285,10 +296,9 @@ class sql_crud:
             query = 'SELECT * FROM students s WHERE gpa >= %s AND gpa <= %s ORDER BY gpa asc'
             cursor.execute(query, (gpa_min, gpa_max))
             rows = cursor.fetchall()
-            print(rows)
-
-
-
+            student_tuple = student_tuple + rows
+        sorted_tuple = sorted(student_tuple, key=lambda x: x[-1])
+        print(sorted_tuple)
 
 
 
