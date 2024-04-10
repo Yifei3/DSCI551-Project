@@ -42,6 +42,19 @@ def get_next_student_id():
         max_id = max(max_id, rows[0][0])
     return max_id + 1
 
+def course_exist_check(course_id):
+    DATABASE_CONNECTION_PARAMS['database'] = 'university'
+    connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+    cursor = connection.cursor()
+    query = 'SELECT course_id FROM courses WHERE course_id = %s'
+    cursor.execute(query, course_id)
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    if not rows or not rows[0]:
+        return True
+    return False
+
 class sql_crud:
     @staticmethod
     def get_student_info(student_id):
@@ -174,7 +187,7 @@ class sql_crud:
 
         query = 'DELETE FROM students s WHERE s.student_id = %s'
         
-        affected_rows  = cursor.execute(query, student_id)
+        affected_rows = cursor.execute(query, student_id)
         connection.commit()
 
         # Close the cursor and connection
@@ -191,15 +204,7 @@ class sql_crud:
         course_id, student_id = enroll_info.split(',')
         student_id = int(student_id)
 
-        DATABASE_CONNECTION_PARAMS['database'] = 'university'
-        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
-        cursor = connection.cursor()
-        query = 'SELECT course_id FROM courses WHERE course_id = %s'
-        cursor.execute(query, course_id)
-        rows = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        if not rows or not rows[0]:
+        if course_exist_check(course_id):
             print(f"Course with course_id {course_id} is not exist. Course enrollment failed.")
             return
 
@@ -217,14 +222,43 @@ class sql_crud:
                 print("Course enrollment failed.")
 
         except pymysql.IntegrityError as e:
-            print(f"Student with student_id {student_id} is not exist. Course enrollment failed.")
+            error_message = str(e)
+            # print("IntegrityError:", e)
+            if "Duplicate entry" in error_message:
+                print(f"Student with student_id {student_id} is already enrolled in this course. Duplicate course enrollment is not allowed.")
+            elif "a foreign key constraint fails" in error_message:
+                print(f"Student with student_id {student_id} is not exist. Course enrollment failed.")
+            else:
+                print("Course enrollment failed.")
         finally:
             cursor.close()
             connection.close()
         return
 
+    @staticmethod
+    def student_withdraw_course(withdraw_info):
+        course_id, student_id = withdraw_info.split(',')
+        student_id = int(student_id)
 
-
+        if course_exist_check(course_id):
+            print(f"Course with course_id {course_id} is not exist. withdrawl from course failed.")
+            return
+        
+        DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+        query = 'DELETE FROM course_taken_by WHERE course_id = %s AND student_id = %s'
+        try:
+            affected_rows = cursor.execute(query, (course_id, student_id))
+            connection.commit()
+            if cursor.rowcount > 0:
+                print(f"course_id {course_id}, student_id {student_id}: withdrawl was successful.")
+            else:
+                print(f"Student with student_id {student_id} is either not exist or not enrolled in course with course_id {course_id}. Course withdrawl failed.")
+        finally:
+            cursor.close()
+            connection.close()
+        return
 
 # Use the below main method to test your code
 if __name__ == "__main__":
