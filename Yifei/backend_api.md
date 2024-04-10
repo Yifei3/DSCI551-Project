@@ -46,3 +46,12 @@ def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + s
               Student with student_id 133 is not exist. Course enrollment failed.
               Student with student_id 48 is already enrolled in this course. Duplicate course enrollment is not allowed.
               Course enrollment failed.
+
+def student_withdraw_course(enroll_info): # enroll_info = str(course_id) + ',' + str(student_id)
+    @USAGE:
+        python3 project_backend_basics.py student_withdraw_course CS105,47
+    @RETURN: 
+        success: course_id CS105, student_id 47: withdrawl was successful.
+ 		fail: Course with course_id CS10005 is not exist. Withdrawl from course failed.
+              Student with student_id 51 is either not exist or not enrolled in course with course_id CS105. Course withdrawl failed.
+              Course withdrawl failed. Student with student_id 48

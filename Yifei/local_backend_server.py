@@ -43,7 +43,9 @@ class sql_crud:
 
     @staticmethod
     def student_withdraw_course(ssh, enroll_info):
-        ...
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py student_withdraw_course {enroll_info}')
+        output = stdout.read().decode('utf-8')
+        print(output)
 
     @staticmethod
     def search_students_by_gpa(ssh, gpa_range): # [min, max]
@@ -72,9 +74,7 @@ def connection_setup():
 
 
 if __name__ == "__main__":
-    json_str = sys.argv[1]
-    input = json.loads(json_str)
-    method_name, data = next(iter(input.items()))
+    method_name, data = sys.argv[1], sys.argv[2]
     obj = sql_crud()
     ssh = connection_setup()
     getattr(obj, method_name)(ssh, data)
