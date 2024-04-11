@@ -1,12 +1,14 @@
 import json
-from flask import Flask, request, send_from_directory
+from flask import send_from_directory
 from flask import Flask, request, render_template
 import paramiko
-from decimal import Decimal
+
+
+
+# initialize_ssh
 
 ssh = None
 
-# 初始化SSH连接
 def initialize_ssh():
     global ssh
     ssh = paramiko.SSHClient()
@@ -23,8 +25,6 @@ app = Flask(__name__)
 
 def index():
 
-    # success = request.args.get('success')
-    # return render_template('index.html', success=success)
 
     return send_from_directory("templates", 'index.html')
 
@@ -111,23 +111,23 @@ def get_course_info():
 
 @app.route('/search_students_by_gpa', methods=['POST'])
 def search_students_by_gpa():
-        min_gpa = request.form['min_gpa']
-        max_gpa = request.form['max_gpa']
-        data = min_gpa + "," + max_gpa
-        print(data)
-        ssh = initialize_ssh()
-        command = f'python3 /home/ubuntu/Project/project_backend_basics.py search_students_by_gpa {data}'
-        stdin, stdout, stderr = ssh.exec_command(command)
-        output = stdout.read().decode('utf-8')
-        print("output", output)
-        ssh.close()
-        print(type(output))
-        try:
-            data_list = eval(output.strip())
-            print(type(data_list),data_list)
-            return render_template('student_list.html', result=data_list)
-        except Exception as e:
-            return render_template('error.html',result="gpa value needs to be a float range from 0 to 4.00")
+    min_gpa = request.form['min_gpa']
+    max_gpa = request.form['max_gpa']
+    data = min_gpa + "," + max_gpa
+    print(data)
+    ssh = initialize_ssh()
+    command = f'python3 /home/ubuntu/Project/project_backend_basics.py search_students_by_gpa {data}'
+    stdin, stdout, stderr = ssh.exec_command(command)
+    output = stdout.read().decode('utf-8')
+    print("output", output)
+    ssh.close()
+    print(type(output))
+    try:
+        data_list = eval(output.strip())
+        print(type(data_list),data_list)
+        return render_template('student_list.html', result=data_list)
+    except Exception as e:
+        return render_template('error.html',result="gpa value needs to be a float range from 0 to 4.00")
 
 @app.route('/search_students_from_professor_id', methods=['POST'])
 def search_students_from_professor_id():
@@ -164,8 +164,6 @@ def search_classmates_from_student_id():
         return render_template('error.html', result=output)
 
 
-
-
 #enroll
 
 @app.route('/enroll_student', methods=['POST'])
@@ -186,7 +184,6 @@ def enroll_student():
         # print(type(data),data)
         data = json.dumps(data)
         # print(type(data), data)
-
         ssh = initialize_ssh()
         command = f'python3 /home/ubuntu/Project/project_backend_basics.py enroll_student \'{data}\''
         # print(command)
@@ -194,7 +191,6 @@ def enroll_student():
         output = stdout.read().decode('utf-8')
         print("output", output)
         ssh.close()
-
         return render_template('result.html', result=output)
     except Exception as e:
         return render_template('result.html', result="Failed")
@@ -204,12 +200,9 @@ def student_enroll_course():
     try:
         student_id = request.form['student_id']
         course_id = request.form['course_id']
-
         data=str(course_id) + ',' + str(student_id)
         print(data)
-
         ssh = initialize_ssh()
-
         command = f'python3 /home/ubuntu/Project/project_backend_basics.py student_enroll_course {data}'
         print(command)
         stdin, stdout, stderr = ssh.exec_command(command)
@@ -217,7 +210,6 @@ def student_enroll_course():
         print("output", output)
         ssh.close()
         return render_template('result.html', result=output)
-
     except Exception as e:
         return render_template('result.html', result="Failed")
 
@@ -239,7 +231,67 @@ def withdraw_student():
     except Exception as e:
         return render_template('result.html', result="Failed")
 
+@app.route('/student_withdraw_course', methods=['POST'])
+def student_withdraw_course():
+    try:
+        student_id = request.form['student_id']
+        course_id = request.form['course_id']
+        data = str(course_id) + ',' + str(student_id)
+        print(data)
 
+        ssh = initialize_ssh()
+        command = f'python3 /home/ubuntu/Project/project_backend_basics.py student_withdraw_course {data}'
+        print(command)
+        stdin, stdout, stderr = ssh.exec_command(command)
+        output = stdout.read().decode('utf-8')
+        print("output", output)
+        ssh.close()
+        return render_template('result.html', result=output)
+    except Exception as e:
+        return render_template('result.html', result="Failed")
+
+
+#update
+
+@app.route('/modify_student_info', methods=['POST'])
+def modify_student_info():
+    try:
+        student_id = request.form['student_id']
+        attribute = request.form['attribute']
+        newValue = request.form['newValue']
+
+        if attribute == "department_id":
+            newValue   = int(newValue)
+
+        if attribute == "gpa":
+            newValue   = float(newValue)
+
+        if attribute == "student_name":
+            attribute   = "name"
+
+        data = {
+            "student_id": student_id,
+            attribute : newValue
+        }
+
+        data = str(data)
+        print(type(data),data)
+        data = data.strip("'").replace("'", '"')
+        print(type(data), data)
+        data = "'" + data + "'"
+        print(type(data), data)
+
+        ssh = initialize_ssh()
+        command = f'python3 /home/ubuntu/Project/project_backend_basics.py modify_student_info {data}'
+        print(command)
+        stdin, stdout, stderr = ssh.exec_command(command)
+        output = stdout.read().decode('utf-8')
+        print("output", output)
+        ssh.close()
+        return render_template('result.html', result=output)
+
+    except Exception as e:
+        return render_template('result.html', result="Failed")
 
 
 if __name__ == '__main__':

@@ -304,11 +304,11 @@ margin-top:10px;
 
 .errorBox{
       font-family:Calibri;
-      background: white;
+      background: transparent;
       color: #FFC1C1;
       text-align: center;
       padding: 1vw;
-      width:300px;
+      width:500px;
       margin: 2vw;
       margin-top:100px;
       margin-bottom:100px;

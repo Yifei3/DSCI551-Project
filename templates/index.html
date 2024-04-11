@@ -15,7 +15,6 @@
 <hr width="95%" height="1px"; color="#FFC1C1" border="none"/>
 
 <div class="container">
-        <!-- 添加标签选项 -->
         <ul class="nav nav-tabs mx-auto d-flex justify-content-center">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#search" onclick="showPage('#search')">Search</a>
@@ -40,7 +39,7 @@
             <div class="col-md-12">
                 <div><label>Get student information</label></div>
                 <form action="/get_student_info" method="post">
-                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
                 <button type="submit" class="btn btn-primary">search</button>
                 </form>
             </div>
@@ -50,7 +49,7 @@
             <div class="col-md-12">
                 <div><label>Get professor information</label></div>
                 <form action="/get_professor_info" method="post">
-                <input type="text" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <input type="number" name="data" class="search_input" placeholder="Please enter professor id" required>
                 <button type="submit" class="btn btn-primary">search</button>
                 </form>
             </div>
@@ -79,7 +78,7 @@
             <div class="col-md-12">
                 <div><label>Search students by professor id</label></div>
                <form action="/search_students_from_professor_id" method="post">
-                <input type="text" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <input type="number" name="data" class="search_input" placeholder="Please enter professor id" required>
                 <button type="submit" class="btn btn-primary">search</button>
                     </form>
             </div>
@@ -88,7 +87,7 @@
             <div class="col-md-12">
                 <div><label>Search classmates by student id</label></div>
                 <form action="/search_classmates_from_student_id" method="post">
-                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
                 <button type="submit" class="btn btn-primary">search</button>
                 </form>
             </div>
@@ -97,7 +96,6 @@
 
                 <!-- Enroll 页面 -->
             <div class="carousel-item" id="enroll">
-        <!-- 此处添加注册页面的内容 -->
         <div class="row1">
             <div class="enroll">Enroll student</div>
             <form action="/enroll_student" method="post">
@@ -139,11 +137,11 @@
             <div class="col-md-12">
                 <div>
                     <label class="enroll_label">Student id</label>
-                <input type="text" name="student_id" class="enroll_input" placeholder="Please enter student id" required>
+                <input type="number" name="student_id" class="enroll_input" placeholder="Please enter student id" required>
                     </div>
                 <div>
                     <label class="enroll_label">Course id</label>
-                <input type="text" name="course_id" class="enroll_input" placeholder="Please enter Course id" required>
+                <input type="text" name="course_id" class="enroll_input" placeholder="Please enter course id" required>
                     </div>
             </div>
             <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
@@ -159,19 +157,18 @@
             <div class="col-md-12">
                     <div><label>Withdraw student</label></div>
                 <form action="/withdraw_student" method="post">
-
-                <input type="text" name="data" class="search_input" placeholder="Please enter student id" required>
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
                 <button type="submit" class="btn btn-primary">withdraw</button>
-
                     </form>
             </div>
         </div>
+
         <div class="row2">
             <div class="col-md-12">
                     <div><label>Student withdraw course</label></div>
-                <form action="/withdraw_student" method="post">
-                <input type="text" class="withdraw_input" placeholder="Please enter student id">
-                <input type="text" class="withdraw_input" placeholder="Please enter course id">
+                <form action="/student_withdraw_course" method="post">
+                <input type="number" name="student_id" class="withdraw_input" placeholder="Please enter student id" required>
+                <input type="text" name="course_id" class="withdraw_input" placeholder="Please enter course id" required>
                 <button type="submit" class="btn btn-primary">withdraw</button>
                     </form>
             </div>
@@ -183,14 +180,15 @@
             <div class="carousel-item" id="update">
         <div class="row1">
             <div class="enroll">Modify student information</div>
+            <form action="/modify_student_info" method="post">
             <div class="col-md-12">
                 <div>
                     <label class="enroll_label">Student id</label>
-                <input type="text" class="enroll_input" placeholder="Please enter student id">
+                <input type="number" class="enroll_input" name="student_id" placeholder="Please enter student id" required>
                     </div>
                 <div>
                     <label class="enroll_label">Attribute</label>
-                        <select id="attributeSelect"  class="enroll_input">
+                        <select id="attributeSelect"  name="attribute" class="enroll_input" required>
                             <option value="" disabled selected>Please select</option>
                             <option value="student_name">Student name</option>
                             <option value="gender">Gender</option>
@@ -201,7 +199,7 @@
                 </div>
                 <div id="newValueInput">
                     <label class="enroll_label">New value</label>
-                <input type="text" id="newValue" class="enroll_input" placeholder="Please enter new value">
+                <input type="text" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>
                 </div>
 
                 <script>
@@ -211,46 +209,26 @@
                         var newValueInputHtml = '<label class="enroll_label">New value</label>';
 
                         if (selectedValue === 'gender') {
-                             newValueInputHtml += '<select id="newValue" class="enroll_input">' +
+                             newValueInputHtml += '<select id="newValue" name="newValue" class="enroll_input" required>' +
                                     '<option value="" disabled selected>Please select</option>' +
                                     '<option value="male">Male</option>' +
                                     '<option value="female">Female</option>' +
                                     '<option value="other">Other</option>' +
                                 '</select>';
-                        } else {
-                            newValueInputHtml += '<input type="text" id="newValue" class="enroll_input" placeholder="Please enter new value">';
+                        }  else if ( selectedValue === 'department_id'){
+                            newValueInputHtml += '<input type="number" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>';
+                        }  else if ( selectedValue === 'gpa'){
+                            newValueInputHtml += '<input type="number" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" step="0.01" required>';
+                        }  else {
+                            newValueInputHtml += '<input type="text" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>';
                         }
                         newValueInput.innerHTML = newValueInputHtml;
                     });
                 </script>
 
-
-
-
-
-
-<!--                <div>-->
-<!--                    <label class="enroll_label">Student name</label>-->
-<!--                <input type="text" class="enroll_input" placeholder="Please enter student name">-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--                    <label class="enroll_label">Gender</label>-->
-<!--                <input type="text" class="enroll_input" placeholder="Please enter gender">-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--                    <label class="enroll_label">Email</label>-->
-<!--                <input type="text" class="enroll_input" placeholder="Please enter email">-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--                    <label class="enroll_label">Department id</label>-->
-<!--                <input type="text" class="enroll_input" placeholder="Please enter department id">-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--                    <label class="enroll_label">GPA</label>-->
-<!--                <input type="text" class="enroll_input" placeholder="Please enter GPA">-->
-<!--                    </div>-->
             </div>
             <div class="enroll"><button type="submit" class="btn btn-primary">modify</button></div>
+            </form>
         </div>
                 </div>
             </div>
