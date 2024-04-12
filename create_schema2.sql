@@ -194,6 +194,33 @@ INSERT INTO `course_taken_by` VALUES ('CS102', 49);
 INSERT INTO `course_taken_by` VALUES ('DS100', 50);
 INSERT INTO `course_taken_by` VALUES ('CS104', 50);
 INSERT INTO `course_taken_by` VALUES ('CS105', 50);
+INSERT INTO `course_taken_by` VALUES ('MGMT101', 31);
+INSERT INTO `course_taken_by` VALUES ('STAT101', 43);
+INSERT INTO `course_taken_by` VALUES ('MKT100', 30);
+INSERT INTO `course_taken_by` VALUES ('ACCT101', 36);
+INSERT INTO `course_taken_by` VALUES ('MKT100', 47);
+INSERT INTO `course_taken_by` VALUES ('HRM150', 34);
+INSERT INTO `course_taken_by` VALUES ('ACCT101', 27);
+INSERT INTO `course_taken_by` VALUES ('HRM150', 50);
+INSERT INTO `course_taken_by` VALUES ('ECON150', 29);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 5);
+INSERT INTO `course_taken_by` VALUES ('ECON150', 23);
+INSERT INTO `course_taken_by` VALUES ('HRM150', 17);
+INSERT INTO `course_taken_by` VALUES ('ACCT101', 9);
+INSERT INTO `course_taken_by` VALUES ('MGMT101', 7);
+INSERT INTO `course_taken_by` VALUES ('BUS101', 5);
+INSERT INTO `course_taken_by` VALUES ('HRM150', 22);
+INSERT INTO `course_taken_by` VALUES ('ECON102', 44);
+INSERT INTO `course_taken_by` VALUES ('PHYS101', 37);
+INSERT INTO `course_taken_by` VALUES ('CHEM200', 12);
+INSERT INTO `course_taken_by` VALUES ('INTB200', 31);
+INSERT INTO `course_taken_by` VALUES ('ENTR100', 33);
+INSERT INTO `course_taken_by` VALUES ('BIOL101', 38);
+INSERT INTO `course_taken_by` VALUES ('SOC101', 42);
+INSERT INTO `course_taken_by` VALUES ('MATH150', 2);
+INSERT INTO `course_taken_by` VALUES ('PHYS101', 6);
+INSERT INTO `course_taken_by` VALUES ('ECON102', 38);
+
 -- student-1 DONE
 
 DROP DATABASE IF EXISTS `student-2`;
@@ -285,6 +312,43 @@ INSERT INTO `course_taken_by` VALUES ('MGMT101', 79);
 INSERT INTO `course_taken_by` VALUES ('MGMT101', 60);
 INSERT INTO `course_taken_by` VALUES ('STAT101', 65);
 INSERT INTO `course_taken_by` VALUES ('FIN200', 65);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 62);
+INSERT INTO `course_taken_by` VALUES ('MKT100', 92);
+INSERT INTO `course_taken_by` VALUES ('STAT101', 88);
+INSERT INTO `course_taken_by` VALUES ('MKT100', 56);
+INSERT INTO `course_taken_by` VALUES ('STAT101', 76);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 74);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 60);
+INSERT INTO `course_taken_by` VALUES ('HRM150', 53);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 71);
+INSERT INTO `course_taken_by` VALUES ('FIN200', 57);
+INSERT INTO `course_taken_by` VALUES ('MKT100', 84);
+INSERT INTO `course_taken_by` VALUES ('MGMT101', 62);
+INSERT INTO `course_taken_by` VALUES ('BUS101', 76);
+INSERT INTO `course_taken_by` VALUES ('STAT101', 99);
+INSERT INTO `course_taken_by` VALUES ('CHEM200', 52);
+INSERT INTO `course_taken_by` VALUES ('PHYS101', 74);
+INSERT INTO `course_taken_by` VALUES ('BIOL101', 68);
+INSERT INTO `course_taken_by` VALUES ('CHEM200', 95);
+INSERT INTO `course_taken_by` VALUES ('ENGL123', 67);
+INSERT INTO `course_taken_by` VALUES ('PSYC100', 84);
+INSERT INTO `course_taken_by` VALUES ('MATH150', 81);
+INSERT INTO `course_taken_by` VALUES ('MATH150', 86);
+INSERT INTO `course_taken_by` VALUES ('HIST201', 61);
+INSERT INTO `course_taken_by` VALUES ('ENTR100', 87);
+INSERT INTO `course_taken_by` VALUES ('CS105', 76);
+INSERT INTO `course_taken_by` VALUES ('CS104', 61);
+INSERT INTO `course_taken_by` VALUES ('CS105', 51);
+INSERT INTO `course_taken_by` VALUES ('DS104', 59);
+INSERT INTO `course_taken_by` VALUES ('CS101', 51);
+INSERT INTO `course_taken_by` VALUES ('CS101', 77);
+INSERT INTO `course_taken_by` VALUES ('DS102', 83);
+INSERT INTO `course_taken_by` VALUES ('CS104', 60);
+INSERT INTO `course_taken_by` VALUES ('CS105', 54);
+INSERT INTO `course_taken_by` VALUES ('CS102', 86);
+
+
+
 -- student-2 DONE
 
 
