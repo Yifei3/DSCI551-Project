@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `student-1`;
-CREATE DATABASE `student-1`; 
-USE `student-1`;
+DROP DATABASE IF EXISTS `student1`;
+CREATE DATABASE `student1`; 
+USE `student1`;
 
 SET NAMES utf8 ;
 SET character_set_client = utf8mb4 ;
@@ -223,9 +223,9 @@ INSERT INTO `course_taken_by` VALUES ('ECON102', 38);
 
 -- student-1 DONE
 
-DROP DATABASE IF EXISTS `student-2`;
-CREATE DATABASE `student-2`; 
-USE `student-2`;
+DROP DATABASE IF EXISTS `student2`;
+CREATE DATABASE `student2`; 
+USE `student2`;
 
 SET NAMES utf8 ;
 SET character_set_client = utf8mb4 ;
