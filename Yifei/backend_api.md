@@ -82,3 +82,62 @@ def modify_student_info(student_info): #json_string input
               Update failed.
               Error: + Exception
               ...
+
+def search_classmates_from_student_id(student_id):
+    @USAGE:
+        python3 project_backend_basics.py search_classmates_from_student_id 9
+    @RETURN: 
+        success: 
+                ((8, 'Michael Moore', 'male', 'michael204@gmail.com', 1, Decimal('2.84'), 'CS102'), (10, 'William Smith', 'female', 'william272@gmail.com', 1, Decimal('3.98'), 'CS102'), (12, 'William Hernandez', 'female', 'william262@gmail.com', 1, Decimal('3.01'), 'DS104'), (16, 'Robert Moore', 'female', 'robert253@gmail.com', 2, Decimal('3.26'), 'DS104'), (20, 'William Garcia', 'male', 'william223@gmail.com', 3, Decimal('3.70'), 'CS102'), (30, 'Thomas Brown', 'male', 'thomas279@gmail.com', 2, Decimal('2.60'), 'DS104'), (32, 'Jennifer Wilson', 'male', 'jennifer240@gmail.com', 1, Decimal('3.08'), 'CS102'), (34, 'Patricia Martin', 'male', 'patricia296@gmail.com', 1, Decimal('3.78'), 'CS102, DS104'), (37, 'William Rodriguez', 'female', 'william257@gmail.com', 1, Decimal('2.10'), 'CS102'), (39, 'Susan Rodriguez', 'male', 'susan217@gmail.com', 1, Decimal('2.11'), 'CS102'), (42, 'Jessica Miller', 'female', 'jessica216@gmail.com', 1, Decimal('2.43'), 'CS102, DS104'), (45, 'James Wilson', 'male', 'james281@gmail.com', 1, Decimal('3.42'), 'DS104'), (46, 'Susan Johnson', 'male', 'susan262@gmail.com', 1, Decimal('3.06'), 'CS102'), (48, 'Karen Garcia', 'male', 'karen200@gmail.com', 3, Decimal('2.96'), 'DS104'), (49, 'Robert Davis', 'female', 'robert138@gmail.com', 2, Decimal('2.90'), 'CS102'))
+
+                +------------+-------------------+--------+-----------------------+---------------+------+--------------+
+                | student_id | name              | gender | email                 | department_id | gpa  | course_ids   |
+                +------------+-------------------+--------+-----------------------+---------------+------+--------------+
+                |          8 | Michael Moore     | male   | michael204@gmail.com  |             1 | 2.84 | CS102        |
+                |         10 | William Smith     | female | william272@gmail.com  |             1 | 3.98 | CS102        |
+                |         12 | William Hernandez | female | william262@gmail.com  |             1 | 3.01 | DS104        |
+                |         16 | Robert Moore      | female | robert253@gmail.com   |             2 | 3.26 | DS104        |
+                |         20 | William Garcia    | male   | william223@gmail.com  |             3 | 3.70 | CS102        |
+                |         30 | Thomas Brown      | male   | thomas279@gmail.com   |             2 | 2.60 | DS104        |
+                |         32 | Jennifer Wilson   | male   | jennifer240@gmail.com |             1 | 3.08 | CS102        |
+                |         34 | Patricia Martin   | male   | patricia296@gmail.com |             1 | 3.78 | CS102, DS104 |
+                |         37 | William Rodriguez | female | william257@gmail.com  |             1 | 2.10 | CS102        |
+                |         39 | Susan Rodriguez   | male   | susan217@gmail.com    |             1 | 2.11 | CS102        |
+                |         42 | Jessica Miller    | female | jessica216@gmail.com  |             1 | 2.43 | CS102, DS104 |
+                |         45 | James Wilson      | male   | james281@gmail.com    |             1 | 3.42 | DS104        |
+                |         46 | Susan Johnson     | male   | susan262@gmail.com    |             1 | 3.06 | CS102        |
+                |         48 | Karen Garcia      | male   | karen200@gmail.com    |             3 | 2.96 | DS104        |
+                |         49 | Robert Davis      | female | robert138@gmail.com   |             2 | 2.90 | CS102        |
+                +------------+-------------------+--------+-----------------------+---------------+------+--------------+
+
+
+ 		fail: Error: student_id needs to be a positive integer.
+              Error: student with student_id 10000 either is not enrolled in any courses or does not have any classmates.
+    @ISSUE:
+        student_id exist check
+
+
+def search_students_from_professor_id(professor_id):
+    @USAGE:
+        python3 project_backend_basics.py search_students_from_professor_id 3
+    @RETURN: 
+        success: 
+                ((9, 'Jennifer Hernandez', 'female', 'jennifer285@gmail.com', 1, Decimal('3.60'), 'DS104'), (12, 'William Hernandez', 'female', 'william262@gmail.com', 1, Decimal('3.01'), 'DS104'), (16, 'Robert Moore', 'female', 'robert253@gmail.com', 2, Decimal('3.26'), 'DS104'), (30, 'Thomas Brown', 'male', 'thomas279@gmail.com', 2, Decimal('2.60'), 'DS104'), (34, 'Patricia Martin', 'male', 'patricia296@gmail.com', 1, Decimal('3.78'), 'DS104'), (42, 'Jessica Miller', 'female', 'jessica216@gmail.com', 1, Decimal('2.43'), 'DS104'), (45, 'James Wilson', 'male', 'james281@gmail.com', 1, Decimal('3.42'), 'DS104'), (48, 'Karen Garcia', 'male', 'karen200@gmail.com', 3, Decimal('2.96'), 'DS104'))
+
+                +------------+--------------------+--------+-----------------------+---------------+------+------------+
+                | student_id | name               | gender | email                 | department_id | gpa  | course_ids |
+                +------------+--------------------+--------+-----------------------+---------------+------+------------+
+                |          9 | Jennifer Hernandez | female | jennifer285@gmail.com |             1 | 3.60 | DS104      |
+                |         12 | William Hernandez  | female | william262@gmail.com  |             1 | 3.01 | DS104      |
+                |         16 | Robert Moore       | female | robert253@gmail.com   |             2 | 3.26 | DS104      |
+                |         30 | Thomas Brown       | male   | thomas279@gmail.com   |             2 | 2.60 | DS104      |
+                |         34 | Patricia Martin    | male   | patricia296@gmail.com |             1 | 3.78 | DS104      |
+                |         42 | Jessica Miller     | female | jessica216@gmail.com  |             1 | 2.43 | DS104      |
+                |         45 | James Wilson       | male   | james281@gmail.com    |             1 | 3.42 | DS104      |
+                |         48 | Karen Garcia       | male   | karen200@gmail.com    |             3 | 2.96 | DS104      |
+                +------------+--------------------+--------+-----------------------+---------------+------+------------+
+
+ 		fail: Error: professor_id needs to be a positive integer.
+              Error: professor with professor_id 4000 either is not teaching any courses or no student is enrolled in the course.
+    @ISSUE:
+        prof_id exist check

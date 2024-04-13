@@ -200,6 +200,11 @@ class sql_crud:
         # Delete the student from databases that has the specified student_id.
         # INPUT: student_id (int)
         # RETURN: SUCCESS / FAIL
+
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
+        
         student_id = int(student_id)
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -335,6 +340,74 @@ class sql_crud:
             connection.close()
         return
 
+    @staticmethod
+    def search_classmates_from_student_id(student_id):
+        '''
+        select s.student_id, s.name, s.gender, s.email, s.department_id, s.gpa, GROUP_CONCAT(c.course_id ORDER BY c.course_id SEPARATOR ', ') AS course_ids 
+        from course_taken_by c 
+        join students s on c.student_id = s.student_id 
+        where course_id in (
+                        select course_id from student1.course_taken_by where student_id = 5) 
+        and s.student_id != 5 
+        group by s.student_id 
+        order by student_id;
+        '''
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
+
+        student_id = int(student_id)
+        subquery_db = hash_database(student_id)
+        classmates_tuple = ()
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+        
+            query = f"select s.student_id, s.name, s.gender, s.email, s.department_id, s.gpa, GROUP_CONCAT(c.course_id ORDER BY c.course_id SEPARATOR ', ') AS course_ids from course_taken_by c join students s on c.student_id = s.student_id where course_id in (select course_id from {subquery_db}.course_taken_by where student_id = %s) and s.student_id != %s group by s.student_id order by student_id"
+            cursor.execute(query, (student_id, student_id))
+            rows = cursor.fetchall()
+            classmates_tuple = classmates_tuple + rows
+        if not classmates_tuple:
+            print(f'Error: student with student_id {student_id} either is not enrolled in any courses or does not have any classmates.')
+        else:
+            print(classmates_tuple)
+        return
+
+    @staticmethod
+    def search_students_from_professor_id(professor_id):
+        '''
+        select s.student_id, s.name, s.gender, s.email, s.department_id, s.gpa, GROUP_CONCAT(c.course_id ORDER BY c.course_id SEPARATOR ', ') AS course_ids 
+        from course_taken_by c 
+        join students s on c.student_id = s.student_id 
+        where course_id in (
+                        select course_id from university.courses where prof_id = 5) 
+        group by s.student_id 
+        order by student_id;
+        '''
+
+        if not is_pos_integer(professor_id):  
+            print('Error: professor_id needs to be a positive integer.')
+            return
+        professor_id = int(professor_id)
+        students_tuple = ()
+
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+        
+            query = "select s.student_id, s.name, s.gender, s.email, s.department_id, s.gpa, GROUP_CONCAT(c.course_id ORDER BY c.course_id SEPARATOR ', ') AS course_ids from course_taken_by c join students s on c.student_id = s.student_id where course_id in (select course_id from university.courses where prof_id = %s) group by s.student_id order by student_id"
+            cursor.execute(query, professor_id)
+            rows = cursor.fetchall()
+            students_tuple = students_tuple + rows
+        # for item in students_tuple:
+        #     print(item)
+        if not students_tuple:
+            print(f'Error: professor with professor_id {professor_id} either is not teaching any courses or no student is enrolled in the course.')
+        else:
+            print(students_tuple)
+        return
 
 # Use the below main method to test your code
 if __name__ == "__main__":

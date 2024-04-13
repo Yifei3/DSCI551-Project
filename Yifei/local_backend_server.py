@@ -56,11 +56,15 @@ class sql_crud:
 
     @staticmethod
     def search_students_from_professor_id(ssh, professor_id):
-        ...
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py search_classmates_from_professor_id {professor_id}')
+        output = stdout.read().decode('utf-8')
+        print(output)
 
     @staticmethod
     def search_classmates_from_student_id(ssh, student_id):
-        ...
+        stdin, stdout, stderr = ssh.exec_command(f'python3 /home/ubuntu/Project/project_backend_basics.py search_classmates_from_student_id {student_id}')
+        output = stdout.read().decode('utf-8')
+        print(output)
 
     @staticmethod
     def modify_student_info(ssh, student_info):
