@@ -80,7 +80,7 @@ def connection_setup():
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     private_key_path = 'dsci551-sp24.pem'
-    ssh.connect('ec2-18-217-182-18.us-east-2.compute.amazonaws.com', username ='ubuntu', key_filename = private_key_path)
+    ssh.connect('ec2-3-144-131-66.us-east-2.compute.amazonaws.com', username ='ubuntu', key_filename = private_key_path)
     return ssh
 
 
