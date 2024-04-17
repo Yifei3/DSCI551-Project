@@ -17,7 +17,9 @@ DATABASE_CONNECTION_PARAMS = {
     'password': 'Dsci-551',
 }
 
-STUDENT_DATABASE_SIZE = 2
+# **********************
+# change after scaling!
+STUDENT_DATABASE_SIZE = 4
 
 def is_pos_integer(s):
     try:
@@ -76,12 +78,16 @@ def info_format_check(attr, value):
     return True
 
 
-def hash_database(student_id):
+# def hash_database(student_id):
+#     student_id = int(student_id)
+#     if student_id % 100 <= 50 and student_id % 100 != 0:
+#         return 'student1'
+#     else:
+#         return 'student2'
+
+def hash_database(student_id, num_database=STUDENT_DATABASE_SIZE):
     student_id = int(student_id)
-    if student_id % 100 <= 50 and student_id % 100 != 0:
-        return 'student1'
-    else:
-        return 'student2'
+    return 'student' + str((student_id % num_database) + 1)
 
 # find the max student_id, +1 and return
 def get_next_student_id():
@@ -125,6 +131,67 @@ def course_seat_change(course_id, amount):
     cursor.close()
     connection.close()
     return
+
+def grant_premission(db_name):
+    DATABASE_CONNECTION_PARAMS['user'] = 'root'
+    connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f"GRANT ALL PRIVILEGES ON {db_name}.* TO 'dsci551'@'localhost'")
+        cursor.execute("FLUSH PRIVILEGES")
+        connection.commit()
+        print("Privileges granted successfully.")
+    except pymysql.Error as e:
+        print("MySQL Error:", e)
+    except Exception as e:
+        print("An error occurred:", e)
+    finally:
+        cursor.close()
+        connection.close()
+
+def create_new_dbs(increasement):
+    for i in range(int(increasement)):
+        db_name = 'student' + str(STUDENT_DATABASE_SIZE + i + 1)
+        print('db_name: ', db_name)
+        connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+        cursor = connection.cursor()
+        try:
+            grant_premission(db_name)
+            cursor.execute(f"DROP DATABASE IF EXISTS {db_name}")
+            cursor.execute(f"CREATE DATABASE {db_name}")
+            cursor.execute(f"USE {db_name}")
+            cursor.execute(f"""
+                            CREATE TABLE students (
+                                                    student_id int NOT NULL,
+                                                    name varchar(50) NOT NULL,
+                                                    gender varchar(50) NOT NULL,
+                                                    email varchar(50),
+                                                    department_id int NOT NULL,
+                                                    gpa decimal(3,2),
+                                                    PRIMARY KEY (student_id))
+                            """)
+            
+            cursor.execute(f"""
+                            CREATE TABLE course_taken_by (
+                                course_id varchar(50),
+                                student_id int,
+                                PRIMARY KEY (course_id, student_id),
+                                FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE)
+                            """)
+            connection.commit()
+            print("Database and tables created successfully.")
+        except pymysql.Error as e:
+            # Handle MySQL errors
+            print("MySQL Error:", e)
+        except Exception as e:
+            # Handle other exceptions
+            print("An error occurred:", e)
+        finally:
+            # Close the cursor and connection
+            cursor.close()
+            connection.close()
+    return
+
 
 class sql_crud:
     @staticmethod
@@ -554,6 +621,95 @@ class sql_crud:
         else:
             print(students_tuple)
         return
+
+
+    @staticmethod
+    def scale_db(increasement):
+        # step 0: create new databases
+        # step 1: read all data from students and course_taken_by tables and combine
+        # step 2: rehash and group data
+        # step 3: delete all data from students and course_taken_by tables (TRUNCATE TABLE table_name;)
+        # step 4: insert all data back based on hashed values
+
+        # step 0:
+        create_new_dbs(increasement)
+
+        # step 1:
+        students_tuple = ()
+        courses_enrollment_tuple = ()
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+            cursor.execute("select * from students")
+            rows = cursor.fetchall()
+            students_tuple = students_tuple + rows
+
+            cursor.execute("select * from course_taken_by")
+            rows = cursor.fetchall()
+            courses_enrollment_tuple = courses_enrollment_tuple + rows
+            cursor.close()
+            connection.close()
+
+        # with open('output1.csv', 'w', newline='') as csvfile:
+        #     csv_writer = csv.writer(csvfile)
+        #     for row in courses_enrollment_tuple:
+        #         csv_writer.writerow(row)
+
+        # step 2:
+        increasement = int(increasement)
+        students, courses_enrollment = {}, {}
+        for i in range (STUDENT_DATABASE_SIZE + increasement):
+            students[f'student{i + 1}'] = []
+            courses_enrollment[f'student{i + 1}'] = []
+        for i in students_tuple:
+            db_key = hash_database(i[0], STUDENT_DATABASE_SIZE + increasement)
+            students[db_key].append(i)
+        for i in courses_enrollment_tuple:
+            db_key = hash_database(i[1], STUDENT_DATABASE_SIZE + increasement)
+            courses_enrollment[db_key].append(i)
+        # print(courses_enrollment)
+
+        # step 3:
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM course_taken_by")
+            cursor.execute("DELETE FROM students")
+            connection.commit()
+            cursor.close()
+            connection.close()
+
+        # step 4:
+        for db_key, data in students.items():
+            DATABASE_CONNECTION_PARAMS['database'] = db_key
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+
+            query = "INSERT INTO students (student_id, name, gender, email, department_id, gpa) VALUES (%s, %s, %s, %s, %s, %s)"
+            cursor.executemany(query, data)
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+        for db_key, data in courses_enrollment.items():
+            DATABASE_CONNECTION_PARAMS['database'] = db_key
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+
+            query = "INSERT INTO course_taken_by (course_id, student_id) VALUES (%s, %s)"
+            cursor.executemany(query, data)
+            
+            connection.commit()
+            cursor.close()
+            connection.close()
+        return
+
+
+
+
 
 # Use the below main method to test your code
 if __name__ == "__main__":
