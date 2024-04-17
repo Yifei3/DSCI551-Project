@@ -449,8 +449,10 @@ class sql_crud:
     @staticmethod
     def student_withdraw_course(withdraw_info):
         course_id, student_id = withdraw_info.split(',')
+        if not is_pos_integer(student_id):
+            print('Error: student_id needs to be a positive integer.')
+            return
         student_id = int(student_id)
-
         if course_seats_check(course_id) == -1:
             print(f"Course with course_id {course_id} is not exist. withdrawl from course failed.")
             return

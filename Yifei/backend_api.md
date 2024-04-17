@@ -6,12 +6,6 @@ def get_student_info(student_id)
         fail: No info found for student with student_id 1001.
               Error: student_id needs to be a positive integer.
 
-def get_course_info(course_id)
-    @USAGE: 
-        python3 project_backend_basics.py get_course_info CS101
-    @RETURN: 
-        success: {'course_id': 'CS101', 'prof_id': 12, 'name': 'Java', 'department_id': 2, 'schedule_time': 'Tuesday 11:00', 'seat_available': 10, 'description': 'Introduction to java'}
-        fail: No info found for course with course_id CSNULL.
 
 def get_professor_info(professor_id)
     @USAGE: 
@@ -21,39 +15,48 @@ def get_professor_info(professor_id)
         fail: No info found for professor with professor_id 100.
               Error: professor_id needs to be a positive integer.
 
+
+def get_course_info(course_id)
+    @USAGE: 
+        python3 project_backend_basics.py get_course_info CS101
+    @RETURN: 
+        success: {'course_id': 'CS101', 'prof_id': 12, 'name': 'Java', 'department_id': 2, 'schedule_time': 'Tuesday 11:00', 'seat_available': 10, 'description': 'Introduction to java'}
+        fail: No info found for course with course_id CSNULL.
+
+
 def enroll_student(student_info ={name, gender, email, department_id, gpa})
     @USAGE: 
         python3 project_backend_basics.py enroll_student '{"name": "jenny", "gender": "female", "email": "jenfsd@gmail.com", "department_id": 3, "gpa": 3.67}'
 	@RETURN: 
-        success: student_id 108: insert was successful.
- 		fail: Insert failed.
-    @ISSUES: DONE
-        format check, failed check
-        email format, gpa format, department_id format
+        success: student_id 108: Enrollment was successful.
+ 		fail:   Enrollment failed.
+                An error occurred: {e}
+                Invalid student_info input. Enrollment failed.
+        
+
 
 def withdraw_student(student_id)
     @USAGE:
         python3 project_backend_basics.py withdraw_student 113
     @RETURN: 
         success: Student with student_id 99 is successfully deleted.
- 		fail: Delete failed.
-    @ISSUES: DONE
-        course_taken_by change to on delete cascade or do a separate delete.
+ 		fail: Delete failed. Student with student_id {student_id} not exist.
+              Error: student_id needs to be a positive integer.
+
 
 def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + str(student_id)
     @USAGE:
         python3 project_backend_basics.py student_enroll_course CS105,13
     @RETURN: 
         success: course_id CS105, student_id 13: insert was successful.
- 		fail: Course with course_id CS15 is not exist. Course enrollment failed.
+ 		fail: Error: student_id needs to be a positive integer.
+              Course with course_id CS15 is not exist. Course enrollment failed.
               Student with student_id 133 is not exist. Course enrollment failed.
               Student with student_id 48 is already enrolled in this course. Duplicate course enrollment is not allowed.
               Course enrollment failed.
-    @ISSUE: DONE
-        check seat_available
-        seat_available -1 after enrollment
 
-def student_withdraw_course(enroll_info): # enroll_info = str(course_id) + ',' + str(student_id)
+
+def student_withdraw_course(withdraw_info): # withdraw_info = str(course_id) + ',' + str(student_id)
     @USAGE:
         python3 project_backend_basics.py student_withdraw_course CS105,47
     @RETURN: 
@@ -61,8 +64,16 @@ def student_withdraw_course(enroll_info): # enroll_info = str(course_id) + ',' +
  		fail: Course with course_id CS10005 is not exist. Withdrawl from course failed.
               Student with student_id 51 is either not exist or not enrolled in course with course_id CS105. Course withdrawl failed.
               Course withdrawl failed. Student with student_id 48
-    @ISSUE: DONE
-        seat_available +1 after withdrawl
+
+
+def search_students_by_name(name):
+    @USAGE:
+        python3 project_backend_basics.py search_students_by_name johnson
+    @RETURN: 
+        success: 
+                [(23, 'Jessica Johnson', 'female', 'jessica216@gmail.com', 2, Decimal('2.43')), (36, 'Joseph Johnson', 'female', 'joseph290@gmail.com', 1, Decimal('2.79')), (46, 'Susan Johnson', 'male', 'susan262@gmail.com', 1, Decimal('3.06')), (66, 'John Johnson', 'female', 'johnjohnson95@university.edu', 2, Decimal('3.25')), (75, 'Michael Johnson', 'male', 'michaeljohnson54@university.edu', 2, Decimal('3.60')), (64, 'Linda Johnson', 'male', 'lindajohnson68@university.edu', 3, Decimal('3.63')), (96, 'Robert Johnson', 'male', 'robertjohnson54@university.edu', 1, Decimal('3.77'))]
+ 		fail: No matching result.
+
 
 def search_students_by_gpa(gpa_range): #3.50,4.00
     @USAGE:
@@ -72,8 +83,6 @@ def search_students_by_gpa(gpa_range): #3.50,4.00
                 [(92, 'William Jackson', 'male', 'williamjackson59@university.edu', 2, Decimal('3.93')), (94, 'Elizabeth Hernandez', 'female', 'elizabethhernandez56@university.edu', 2, Decimal('3.93')), (52, 'Karen Jackson', 'female', 'karenjackson100@university.edu', 2, Decimal('3.94')), (5, 'Sarah Rodriguez', 'male', 'sarah233@gmail.com', 3, Decimal('4.00'))]
  		fail: [] for empty result
               Error: gpa value needs to be a float range from 0 to 4.00
-    @ISSUE:
-        range 0 to 4.00 check not accurate: front end?
 
 
 def modify_student_info(student_info): #json_string input
@@ -85,9 +94,7 @@ def modify_student_info(student_info): #json_string input
  		fail: Error: student_id needs to be a positive integer.
               Update failed.
               Error: + Exception
-              ...
-    @ISSUE: DONE
-        email format, gpa format, department_id format 
+              
 
 def search_classmates_from_student_id(student_id):
     @USAGE:
@@ -119,8 +126,6 @@ def search_classmates_from_student_id(student_id):
 
  		fail: Error: student_id needs to be a positive integer.
               Error: student with student_id 10000 either is not enrolled in any courses or does not have any classmates.
-    @ISSUE:
-        student_id exist check
 
 
 def search_students_from_professor_id(professor_id):
@@ -145,5 +150,18 @@ def search_students_from_professor_id(professor_id):
 
  		fail: Error: professor_id needs to be a positive integer.
               Error: professor with professor_id 4000 either is not teaching any courses or no student is enrolled in the course.
-    @ISSUE:
-        prof_id exist check
+
+
+def student_enroll_many_course(csv_file)
+    @USAGE:
+        python3 project_backend_basics.py student_enroll_many_course input.csv
+        input.csv format:
+            MATH150,99
+            STAT101,66
+            DCS101,15
+    @NOTE: manager operation, no format check and seat_available check!
+
+def scale_db(increasement): # increasement = num of db to increase
+    @USAGE:
+        python3 project_backend_basics.py scale_db 1
+    @NOTE: manager operation, change value of STUDENT_DATABASE_SIZE at line 22 of project_backend_basics.py after operation!
