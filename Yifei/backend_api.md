@@ -27,8 +27,9 @@ def enroll_student(student_info ={name, gender, email, department_id, gpa})
 	@RETURN: 
         success: student_id 108: insert was successful.
  		fail: Insert failed.
-    @ISSUES:
+    @ISSUES: DONE
         format check, failed check
+        email format, gpa format, department_id format
 
 def withdraw_student(student_id)
     @USAGE:
@@ -36,7 +37,7 @@ def withdraw_student(student_id)
     @RETURN: 
         success: Student with student_id 99 is successfully deleted.
  		fail: Delete failed.
-    @ISSUES:
+    @ISSUES: DONE
         course_taken_by change to on delete cascade or do a separate delete.
 
 def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + str(student_id)
@@ -48,7 +49,7 @@ def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + s
               Student with student_id 133 is not exist. Course enrollment failed.
               Student with student_id 48 is already enrolled in this course. Duplicate course enrollment is not allowed.
               Course enrollment failed.
-    @ISSUE:
+    @ISSUE: DONE
         check seat_available
         seat_available -1 after enrollment
 
@@ -60,7 +61,7 @@ def student_withdraw_course(enroll_info): # enroll_info = str(course_id) + ',' +
  		fail: Course with course_id CS10005 is not exist. Withdrawl from course failed.
               Student with student_id 51 is either not exist or not enrolled in course with course_id CS105. Course withdrawl failed.
               Course withdrawl failed. Student with student_id 48
-    @ISSUE:
+    @ISSUE: DONE
         seat_available +1 after withdrawl
 
 def search_students_by_gpa(gpa_range): #3.50,4.00
@@ -71,6 +72,9 @@ def search_students_by_gpa(gpa_range): #3.50,4.00
                 [(92, 'William Jackson', 'male', 'williamjackson59@university.edu', 2, Decimal('3.93')), (94, 'Elizabeth Hernandez', 'female', 'elizabethhernandez56@university.edu', 2, Decimal('3.93')), (52, 'Karen Jackson', 'female', 'karenjackson100@university.edu', 2, Decimal('3.94')), (5, 'Sarah Rodriguez', 'male', 'sarah233@gmail.com', 3, Decimal('4.00'))]
  		fail: [] for empty result
               Error: gpa value needs to be a float range from 0 to 4.00
+    @ISSUE:
+        range 0 to 4.00 check not accurate: front end?
+
 
 def modify_student_info(student_info): #json_string input
     @USAGE:
@@ -82,6 +86,8 @@ def modify_student_info(student_info): #json_string input
               Update failed.
               Error: + Exception
               ...
+    @ISSUE: DONE
+        email format, gpa format, department_id format 
 
 def search_classmates_from_student_id(student_id):
     @USAGE:

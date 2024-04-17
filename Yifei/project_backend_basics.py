@@ -32,6 +32,45 @@ def is_gpa_float(s):
     except ValueError:
         return False
 
+def info_format_check(attr, value):
+    # name, gender, email, department_id, gpa
+    if attr == 'name':
+        name = value.strip()
+        if not name:
+            print('Invalid name format.')
+            return False
+        parts = name.split()
+        for part in parts:
+            if not all(char.isalpha() or char in "-'" for char in part):
+                print('Invalid name format.')
+                return False
+    elif attr == 'gender':
+        if value != 'male' and value != 'female' and value != 'other':
+            print('Invalid gender. Please select male / female / other.')
+            return False
+    elif attr == 'email':
+        if not isinstance(value, str):
+            print('Invalid email format.')
+            return False
+        user, domain = value.split('@')
+        if not user or not domain or '.' not in domain:
+            print('Invalid email format.')
+            return False
+        domain_parts = domain.split('.')
+        if len(domain_parts) < 2 or any(part.strip() == '' for part in domain_parts):
+            print('Invalid email format.')
+            return False
+    elif attr == 'department_id':
+        if not is_pos_integer(value):
+            print('Invalid department_id.')
+            return False
+    elif attr == 'gpa':
+        if not is_gpa_float(value):
+            print('Invalid gpa value.')
+            return False
+    return True
+
+
 def hash_database(student_id):
     if student_id % 100 <= 50 and student_id % 100 != 0:
         return 'student1'
@@ -49,25 +88,37 @@ def get_next_student_id():
         query = 'SELECT student_id FROM students s ORDER BY student_id desc LIMIT 1'
         cursor.execute(query)
         rows = cursor.fetchall()
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
-        max_id = max(max_id, rows[0][0])
+        cursor.close()
+        connection.close()
+        if rows and rows[0] and rows[0][0]:
+            max_id = max(max_id, rows[0][0])
     return max_id + 1
 
-def course_exist_check(course_id):
+def course_seats_check(course_id):
     DATABASE_CONNECTION_PARAMS['database'] = 'university'
     connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
     cursor = connection.cursor()
-    query = 'SELECT course_id FROM courses WHERE course_id = %s'
+    query = 'SELECT seat_available FROM courses WHERE course_id = %s'
     cursor.execute(query, course_id)
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
     if not rows or not rows[0]:
-        return True
-    return False
+        return -1
+    # print(rows[0][0])
+    return rows[0][0]
+
+def course_seat_minus1(course_id):
+    DATABASE_CONNECTION_PARAMS['database'] = 'university'
+    connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+    cursor = connection.cursor()
+    query = 'UPDATE courses SET seat_available = seat_available - 1 WHERE course_id = %s'
+    cursor.execute(query, course_id)
+    connection.commit()
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return
 
 class sql_crud:
     @staticmethod
@@ -176,23 +227,42 @@ class sql_crud:
     @staticmethod
     def enroll_student(student_info):
         # print(student_info)
-        student_info_dict = json.loads(student_info)
-        name, gender, email, department_id, gpa = student_info_dict.get("name"), student_info_dict.get("gender"), student_info_dict.get("email"), student_info_dict.get("department_id"), student_info_dict.get("gpa")
+        try:
+            student_info_dict = json.loads(student_info)
+            name, gender, email, department_id, gpa = student_info_dict.get("name"), student_info_dict.get("gender"), student_info_dict.get("email"), student_info_dict.get("department_id"), student_info_dict.get("gpa")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            print('Invalid student_info input. Enrollment failed.')
+            return 
+        
+        a = info_format_check("name", name)
+        b = info_format_check("gender", gender)
+        c = info_format_check("email", email)
+        d = info_format_check("department_id", department_id)
+        e = info_format_check("gpa", gpa)
+        if not (a and b and c and d and e):
+            print('Enrollment failed.')
+            # print(a,b,c,d,e)
+            return
+        # print('format check passed')
         student_id = get_next_student_id()
 
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
         connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
         cursor = connection.cursor()
         query = 'INSERT INTO students (student_id, name, gender, email, department_id, gpa) VALUES (%s, %s, %s, %s, %s, %s)'
-        cursor.execute(query, (student_id, name, gender, email, department_id, gpa))
-        connection.commit()
-        if cursor.rowcount > 0:
-            print(f"student_id {student_id}: insert was successful.")
-        else:
-            print("Insert failed.")
-
-        cursor.close()
-        connection.close()
+        try:
+            cursor.execute(query, (student_id, name, gender, email, department_id, gpa))
+            connection.commit()
+            if cursor.rowcount > 0:
+                print(f"student_id {student_id}: Enrollment was successful.")
+            else:
+                print("Enrollment failed.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        finally:
+            cursor.close()
+            connection.close()
         return
 
     @staticmethod
@@ -214,15 +284,14 @@ class sql_crud:
         
         affected_rows = cursor.execute(query, student_id)
         connection.commit()
+        if affected_rows > 0:
+            print(f"Student with student_id {student_id} is successfully deleted.")
+        else:
+            print(f"Delete failed. Student with student_id {student_id} not exist.")
 
         # Close the cursor and connection
         cursor.close()
         connection.close()
-
-        if affected_rows > 0:
-            print(f"Student with student_id {student_id} is successfully deleted.")
-        else:
-            print("Delete failed.")
 
     @staticmethod
     def student_enroll_course(enroll_info):
@@ -230,9 +299,16 @@ class sql_crud:
         if not is_pos_integer(student_id):
             print('Error: student_id needs to be a positive integer.')
             return
-        if course_exist_check(course_id):
+        seats_remain = course_seats_check(course_id)
+        if seats_remain == -1:
             print(f"Course with course_id {course_id} is not exist. Course enrollment failed.")
             return
+        elif seats_remain == 0:
+            print(f'Course with course_id {course_id} has no available seat remaining. Course enrollment failed.')
+            return
+
+        # if not check_empty_seat(course_id):
+        #     print(f'There is no available seat remaining in course with course_id {course_id}. Course enrollment failed.')
 
         student_id = int(student_id)
         DATABASE_CONNECTION_PARAMS['database'] = hash_database(student_id)
@@ -244,6 +320,7 @@ class sql_crud:
             connection.commit()
             if cursor.rowcount > 0:
                 print(f"course_id {course_id}, student_id {student_id}: insert was successful.")
+                course_seat_minus1(course_id)
             else:
                 print("Course enrollment failed.")
 
@@ -256,6 +333,9 @@ class sql_crud:
                 print(f"Student with student_id {student_id} is not exist. Course enrollment failed.")
             else:
                 print("Course enrollment failed.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
         finally:
             cursor.close()
             connection.close()
@@ -281,6 +361,9 @@ class sql_crud:
                 print(f"course_id {course_id}, student_id {student_id}: withdrawl was successful.")
             else:
                 print(f"Student with student_id {student_id} is either not exist or not enrolled in course with course_id {course_id}. Course withdrawl failed.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        
         finally:
             cursor.close()
             connection.close()
@@ -310,7 +393,8 @@ class sql_crud:
         student_info_dict = json.loads(student_info)
         student_id = student_info_dict['student_id']
         change_attr, change_value = list(student_info_dict.items())[1][0], list(student_info_dict.items())[1][1]
-
+        if not info_format_check(change_attr, change_value):
+            return
         if not is_pos_integer(student_id):
             print('Error: student_id needs to be a positive integer.')
             return
@@ -328,7 +412,7 @@ class sql_crud:
             if cursor.rowcount > 0:
                 print("Update successful.")
             else:
-                print("Update failed.")
+                print(f"Update failed. Either student with student_id {student_id} is not exist or the value entered is the same as previous.")
 
             rows = cursor.fetchall()
         except Exception as e:
