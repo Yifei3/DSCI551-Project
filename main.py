@@ -2,8 +2,7 @@ import json
 from flask import send_from_directory
 from flask import Flask, request, render_template
 import paramiko
-
-
+from decimal import Decimal
 
 # initialize_ssh
 
@@ -14,7 +13,7 @@ def initialize_ssh():
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     private_key_path = 'dsci551-sp24.pem'
-    ssh.connect('ec2-18-217-182-18.us-east-2.compute.amazonaws.com', username='ubuntu', key_filename=private_key_path)
+    ssh.connect('ec2-3-15-32-113.us-east-2.compute.amazonaws.com', username='ubuntu', key_filename=private_key_path)
     return ssh
 
 app = Flask(__name__)
@@ -142,7 +141,7 @@ def search_students_from_professor_id():
     try:
         data_list = eval(output.strip())
         print(type(data_list), data_list)
-        return render_template('student_list.html', result=data_list)
+        return render_template('student_list2.html', result=data_list)
     except Exception as e:
         return render_template('error.html', result=output)
 
@@ -159,9 +158,28 @@ def search_classmates_from_student_id():
     try:
         data_list = eval(output.strip())
         print(type(data_list), data_list)
+        return render_template('student_list3.html', result=data_list)
+    except Exception as e:
+        return render_template('error.html', result=output)
+
+
+@app.route('/search_students_by_name', methods=['POST'])
+def search_students_by_name():
+    data = request.form['data']
+    ssh = initialize_ssh()
+    command = f'python3 /home/ubuntu/Project/project_backend_basics.py search_students_by_name {data}'
+    stdin, stdout, stderr = ssh.exec_command(command)
+    output = stdout.read().decode('utf-8')
+    print("output", output)
+    ssh.close()
+    print(type(output))
+    try:
+        data_list = eval(output.strip())
+        print(type(data_list), data_list)
         return render_template('student_list.html', result=data_list)
     except Exception as e:
         return render_template('error.html', result=output)
+
 
 
 #enroll
