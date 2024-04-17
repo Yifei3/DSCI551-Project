@@ -1,3 +1,27 @@
+C:
+enroll_student
+student_enroll_course
+
+R:
+get_student_info
+get_professor_info
+get_course_info
+search_students_by_name
+search_students_by_gpa
+search_classmates_from_student_id
+search_students_from_professor_id
+
+U:
+modify_student_info
+
+D:
+withdraw_student
+student_withdraw_course
+
+Manager operation:
+scale_db
+enroll_many_course
+
 def get_student_info(student_id)
     @USAGE: 
         python3 project_backend_basics.py get_student_info 1
@@ -152,9 +176,9 @@ def search_students_from_professor_id(professor_id):
               Error: professor with professor_id 4000 either is not teaching any courses or no student is enrolled in the course.
 
 
-def student_enroll_many_course(csv_file)
+def enroll_many_course(csv_file)
     @USAGE:
-        python3 project_backend_basics.py student_enroll_many_course input.csv
+        python3 project_backend_basics.py enroll_many_course input.csv
         input.csv format:
             MATH150,99
             STAT101,66

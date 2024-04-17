@@ -19,7 +19,7 @@ DATABASE_CONNECTION_PARAMS = {
 
 # **********************
 # change after scaling!
-STUDENT_DATABASE_SIZE = 4
+STUDENT_DATABASE_SIZE = 3
 
 def is_pos_integer(s):
     try:
@@ -77,14 +77,6 @@ def info_format_check(attr, value):
             return False
     return True
 
-
-# def hash_database(student_id):
-#     student_id = int(student_id)
-#     if student_id % 100 <= 50 and student_id % 100 != 0:
-#         return 'student1'
-#     else:
-#         return 'student2'
-
 def hash_database(student_id, num_database=STUDENT_DATABASE_SIZE):
     student_id = int(student_id)
     return 'student' + str((student_id % num_database) + 1)
@@ -118,7 +110,7 @@ def course_seats_check(course_id):
     if not rows or not rows[0]:
         return -1
     # print(rows[0][0])
-    return rows[0][0]
+    return rows[0][0] # number of seat_available left for this course
 
 def course_seat_change(course_id, amount):
     DATABASE_CONNECTION_PARAMS['database'] = 'university'
@@ -132,6 +124,8 @@ def course_seat_change(course_id, amount):
     connection.close()
     return
 
+# helper function for create_new_dbs
+# used to grant premission for user dsci551
 def grant_premission(db_name):
     DATABASE_CONNECTION_PARAMS['user'] = 'root'
     connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -149,6 +143,8 @@ def grant_premission(db_name):
         cursor.close()
         connection.close()
 
+# helper function for scale_db
+# used to create new student database
 def create_new_dbs(increasement):
     for i in range(int(increasement)):
         db_name = 'student' + str(STUDENT_DATABASE_SIZE + i + 1)
@@ -181,13 +177,10 @@ def create_new_dbs(increasement):
             connection.commit()
             print("Database and tables created successfully.")
         except pymysql.Error as e:
-            # Handle MySQL errors
             print("MySQL Error:", e)
         except Exception as e:
-            # Handle other exceptions
             print("An error occurred:", e)
         finally:
-            # Close the cursor and connection
             cursor.close()
             connection.close()
     return
@@ -197,8 +190,6 @@ class sql_crud:
     @staticmethod
     def get_student_info(student_id):
         # Fetches info of a student that has the specified student_id.
-        # INPUT: student_id (int)
-        # RETURN: info of that student
         if not is_pos_integer(student_id):
             print('Error: student_id needs to be a positive integer.')
             return
@@ -208,8 +199,8 @@ class sql_crud:
         cursor = connection.cursor()
 
         query = 'SELECT * FROM students s WHERE s.student_id = %s'
-        
         cursor.execute(query, student_id)
+
         rows = cursor.fetchall()
         cursor.close()
         connection.close()
@@ -415,7 +406,7 @@ class sql_crud:
         return
 
     @staticmethod
-    def student_enroll_many_course(csv_file):
+    def enroll_many_course(csv_file):
         enrollments_by_db = {}
         for i in range (STUDENT_DATABASE_SIZE):
             enrollments_by_db[f'student{i + 1}'] = []
@@ -443,8 +434,6 @@ class sql_crud:
                 cursor.close()
                 connection.close()
         return
-
-
 
     @staticmethod
     def student_withdraw_course(withdraw_info):
@@ -476,7 +465,6 @@ class sql_crud:
             cursor.close()
             connection.close()
         return
-
 
     @staticmethod
     def search_students_by_name(name):
@@ -624,19 +612,18 @@ class sql_crud:
             print(students_tuple)
         return
 
-
     @staticmethod
     def scale_db(increasement):
-        # step 0: create new databases
-        # step 1: read all data from students and course_taken_by tables and combine
-        # step 2: rehash and group data
-        # step 3: delete all data from students and course_taken_by tables (TRUNCATE TABLE table_name;)
-        # step 4: insert all data back based on hashed values
-
-        # step 0:
-        create_new_dbs(increasement)
+        # step 1: create new databases
+        # step 2: read all data from students and course_taken_by tables and combine
+        # step 3: rehash and group data
+        # step 4: delete all data from students and course_taken_by tables
+        # step 5: insert all data back based on hashed values
 
         # step 1:
+        create_new_dbs(increasement)
+
+        # step 2:
         students_tuple = ()
         courses_enrollment_tuple = ()
         for i in range(STUDENT_DATABASE_SIZE):
@@ -653,12 +640,7 @@ class sql_crud:
             cursor.close()
             connection.close()
 
-        # with open('output1.csv', 'w', newline='') as csvfile:
-        #     csv_writer = csv.writer(csvfile)
-        #     for row in courses_enrollment_tuple:
-        #         csv_writer.writerow(row)
-
-        # step 2:
+        # step 3:
         increasement = int(increasement)
         students, courses_enrollment = {}, {}
         for i in range (STUDENT_DATABASE_SIZE + increasement):
@@ -672,7 +654,7 @@ class sql_crud:
             courses_enrollment[db_key].append(i)
         # print(courses_enrollment)
 
-        # step 3:
+        # step 4:
         for i in range(STUDENT_DATABASE_SIZE):
             DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
             connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -683,7 +665,7 @@ class sql_crud:
             cursor.close()
             connection.close()
 
-        # step 4:
+        # step 5:
         for db_key, data in students.items():
             DATABASE_CONNECTION_PARAMS['database'] = db_key
             connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
@@ -712,19 +694,14 @@ class sql_crud:
 
 
 
-
-# Use the below main method to test your code
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python project_backend_basics.py '<function_name>' '<student_id>'")
+        print("Usage: python project_backend_basics.py '<function_name>' '<data>'")
         print(sys.argv)
         print(len(sys.argv))
         sys.exit(1)
-    # print('input length correct')
     method_name = sys.argv[1]
     data = sys.argv[2]
-    # print(data)
     obj = sql_crud()
     getattr(obj, method_name)(data)
-    #print(get_next_student_id())
 
