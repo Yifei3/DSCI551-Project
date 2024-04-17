@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import pymysql
 import pandas as pd
 import json
+import csv
 
 # create user dsci551@localhost identified by "Dsci-551";
 # grant all privileges on student1.* to dsci551@localhost;
@@ -52,12 +53,16 @@ def info_format_check(attr, value):
         if not isinstance(value, str):
             print('Invalid email format.')
             return False
-        user, domain = value.split('@')
-        if not user or not domain or '.' not in domain:
-            print('Invalid email format.')
-            return False
-        domain_parts = domain.split('.')
-        if len(domain_parts) < 2 or any(part.strip() == '' for part in domain_parts):
+        try:
+            user, domain = value.split('@')
+            if not user or not domain or '.' not in domain:
+                print('Invalid email format.')
+                return False
+            domain_parts = domain.split('.')
+            if len(domain_parts) < 2 or any(part.strip() == '' for part in domain_parts):
+                print('Invalid email format.')
+                return False
+        except Exception as e:
             print('Invalid email format.')
             return False
     elif attr == 'department_id':
@@ -72,6 +77,7 @@ def info_format_check(attr, value):
 
 
 def hash_database(student_id):
+    student_id = int(student_id)
     if student_id % 100 <= 50 and student_id % 100 != 0:
         return 'student1'
     else:
@@ -108,12 +114,12 @@ def course_seats_check(course_id):
     # print(rows[0][0])
     return rows[0][0]
 
-def course_seat_minus1(course_id):
+def course_seat_change(course_id, amount):
     DATABASE_CONNECTION_PARAMS['database'] = 'university'
     connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
     cursor = connection.cursor()
-    query = 'UPDATE courses SET seat_available = seat_available - 1 WHERE course_id = %s'
-    cursor.execute(query, course_id)
+    query = 'UPDATE courses SET seat_available = seat_available + %s WHERE course_id = %s'
+    cursor.execute(query, (amount, course_id))
     connection.commit()
     rows = cursor.fetchall()
     cursor.close()
@@ -320,7 +326,7 @@ class sql_crud:
             connection.commit()
             if cursor.rowcount > 0:
                 print(f"course_id {course_id}, student_id {student_id}: insert was successful.")
-                course_seat_minus1(course_id)
+                course_seat_change(course_id, -1)
             else:
                 print("Course enrollment failed.")
 
@@ -342,11 +348,43 @@ class sql_crud:
         return
 
     @staticmethod
+    def student_enroll_many_course(csv_file):
+        enrollments_by_db = {}
+        for i in range (STUDENT_DATABASE_SIZE):
+            enrollments_by_db[f'student{i + 1}'] = []
+        with open(csv_file, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                enroll_info = ','.join(row)
+                course_id, student_id = enroll_info.split(',')
+                db_key = hash_database(student_id)
+                enrollments_by_db[db_key].append((course_id, int(student_id)))
+
+        for db_key, enrollments in enrollments_by_db.items():
+            DATABASE_CONNECTION_PARAMS['database'] = db_key
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+            query = 'INSERT INTO course_taken_by (course_id, student_id) VALUES (%s, %s)'
+            try:
+                cursor.executemany(query, enrollments)
+                connection.commit()
+                for course_id, student_id in enrollments:
+                    course_seat_change(course_id, -1)
+            except Exception as e:
+                print(f"An error occurred during enrollment: {e}")
+            finally:
+                cursor.close()
+                connection.close()
+        return
+
+
+
+    @staticmethod
     def student_withdraw_course(withdraw_info):
         course_id, student_id = withdraw_info.split(',')
         student_id = int(student_id)
 
-        if course_exist_check(course_id):
+        if course_seats_check(course_id) == -1:
             print(f"Course with course_id {course_id} is not exist. withdrawl from course failed.")
             return
         
@@ -359,6 +397,7 @@ class sql_crud:
             connection.commit()
             if cursor.rowcount > 0:
                 print(f"course_id {course_id}, student_id {student_id}: withdrawl was successful.")
+                course_seat_change(course_id, 1)
             else:
                 print(f"Student with student_id {student_id} is either not exist or not enrolled in course with course_id {course_id}. Course withdrawl failed.")
         except Exception as e:
@@ -367,6 +406,29 @@ class sql_crud:
         finally:
             cursor.close()
             connection.close()
+        return
+
+
+    @staticmethod
+    def search_students_by_name(name):
+        if not(isinstance(name, str) and bool(name.strip())):
+            print('Error: please enter a non-empty string.')
+            return
+        student_tuple = ()
+        for i in range(STUDENT_DATABASE_SIZE):
+            DATABASE_CONNECTION_PARAMS['database'] = 'student' + str(i + 1)
+            connection = pymysql.connect(**DATABASE_CONNECTION_PARAMS)
+            cursor = connection.cursor()
+
+            query = 'SELECT * FROM students s WHERE name LIKE %s'
+            cursor.execute(query, '%' + name + '%')
+            rows = cursor.fetchall()
+            student_tuple = student_tuple + rows
+        sorted_tuple = sorted(student_tuple, key=lambda x: x[-1])
+        if sorted_tuple:
+            print(sorted_tuple)
+        else:
+            print('No matching result.')
         return
 
     @staticmethod
@@ -503,7 +565,7 @@ if __name__ == "__main__":
     # print('input length correct')
     method_name = sys.argv[1]
     data = sys.argv[2]
-    # print(method_name, data)
+    # print(data)
     obj = sql_crud()
     getattr(obj, method_name)(data)
     #print(get_next_student_id())
