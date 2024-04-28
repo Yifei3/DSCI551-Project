@@ -19,4 +19,5 @@ To run these scripts, you will need access to MySQL server on EC2 or locally.
 
 ## Authors
 - Zhenyu Huang
-
+- Chang Li
+- Yifei Li
