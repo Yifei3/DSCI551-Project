@@ -9,8 +9,8 @@ Yifei Li, Chang Li, Zhenyu Huang
 HOW TO:
     
     open the web application:
-        1.Download the "Frontend" folder
-        2.Run the main.py file (python main.py)
+        1.Download the "Frontend" folder.
+        2.Run the main.py file (python main.py).
         3.After starting the server, open a web browser and go to the following URL: http://127.0.0.1:5000, and this will launch the app in your browser.
 
     connect to the ec2 server:
