@@ -1,8 +1,6 @@
 # IMPORT LIBRARIES
 import sys
-from sqlalchemy import create_engine
 import pymysql
-import pandas as pd
 import json
 import csv
 
@@ -19,6 +17,7 @@ DATABASE_CONNECTION_PARAMS = {
 
 # **********************
 # change after scaling!
+# This tells the program how many distributed stuent database currently exist in the MySQL server
 STUDENT_DATABASE_SIZE = 3
 
 def is_pos_integer(s):
@@ -36,7 +35,7 @@ def is_gpa_float(s):
         return False
 
 def info_format_check(attr, value):
-    # name, gender, email, department_id, gpa
+    # name, gender, email, department_id, gpa format check
     if attr == 'name':
         name = value.strip()
         if not name:
@@ -697,11 +696,8 @@ class sql_crud:
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python project_backend_basics.py '<function_name>' '<data>'")
-        print(sys.argv)
-        print(len(sys.argv))
         sys.exit(1)
     method_name = sys.argv[1]
     data = sys.argv[2]
     obj = sql_crud()
     getattr(obj, method_name)(data)
-
