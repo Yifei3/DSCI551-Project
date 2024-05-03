@@ -12,6 +12,7 @@ HOW TO:
         1.Download the "Frontend" folder.
         2.Run the main.py file (python main.py).
         3.After starting the server, open a web browser and go to the following URL: http://127.0.0.1:5000, and this will launch the app in your browser.
+	4.After the above steps, the database will already be built and set up in the EC2 environment, so no need to download/operate files inside 'Database' folder.
 
     connect to the ec2 server:
         ssh -i "dsci551-sp24.pem" ubuntu@ec2-3-137-144-14.us-east-2.compute.amazonaws.com (ec2 address subject to change after reboot)
