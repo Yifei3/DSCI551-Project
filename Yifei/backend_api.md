@@ -61,7 +61,7 @@ D:
     student_withdraw_course
 
 
-# gets the information of the student with the specified student_id
+// gets the information of the student with the specified student_id
 def get_student_info(student_id)
     @USAGE: 
         python3 project_backend_basics.py get_student_info 1
@@ -71,7 +71,7 @@ def get_student_info(student_id)
               Error: student_id needs to be a positive integer.
 
 
-# gets the information of the professor with the specified professor_id
+// gets the information of the professor with the specified professor_id
 def get_professor_info(professor_id)
     @USAGE: 
         python3 project_backend_basics.py get_professor_info 100
@@ -81,7 +81,7 @@ def get_professor_info(professor_id)
               Error: professor_id needs to be a positive integer.
 
 
-# gets the information of the course with the specified course_id
+// gets the information of the course with the specified course_id
 def get_course_info(course_id)
     @USAGE: 
         python3 project_backend_basics.py get_course_info CS101
@@ -90,7 +90,7 @@ def get_course_info(course_id)
         fail: No info found for course with course_id CSNULL.
 
 
-# add a new studnet with provided info into the student database
+// add a new studnet with provided info into the student database
 def enroll_student(student_info ={name, gender, email, department_id, gpa})
     @USAGE: 
         python3 project_backend_basics.py enroll_student '{"name": "jenny", "gender": "female", "email": "jenfsd@gmail.com", "department_id": 3, "gpa": 3.67}'
@@ -101,7 +101,7 @@ def enroll_student(student_info ={name, gender, email, department_id, gpa})
                 Invalid student_info input. Enrollment failed.
         
 
-# remove a student from the student database
+// remove a student from the student database
 def withdraw_student(student_id)
     @USAGE:
         python3 project_backend_basics.py withdraw_student 113
@@ -111,7 +111,7 @@ def withdraw_student(student_id)
               Error: student_id needs to be a positive integer.
 
 
-# try to add a course enrollment info into the database, change the remaining seat of that course
+// try to add a course enrollment info into the database, change the remaining seat of that course
 def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + str(student_id)
     @USAGE:
         python3 project_backend_basics.py student_enroll_course CS105,13
@@ -124,7 +124,7 @@ def student_enroll_course(enroll_info): # enroll_info = str(course_id) + ',' + s
               Course enrollment failed.
 
 
-# remove a course enrollment info into the database, change the remaining seat of that course
+// remove a course enrollment info into the database, change the remaining seat of that course
 def student_withdraw_course(withdraw_info): # withdraw_info = str(course_id) + ',' + str(student_id)
     @USAGE:
         python3 project_backend_basics.py student_withdraw_course CS105,47
@@ -135,7 +135,7 @@ def student_withdraw_course(withdraw_info): # withdraw_info = str(course_id) + '
               Course withdrawl failed. Student with student_id 48
 
 
-# find info of all students in the student database whose name contains the input string
+// find info of all students in the student database whose name contains the input string
 def search_students_by_name(name):
     @USAGE:
         python3 project_backend_basics.py search_students_by_name johnson
@@ -145,7 +145,7 @@ def search_students_by_name(name):
  		fail: No matching result.
 
 
-# find info of all students in the student database whose gpa is within the input range
+// find info of all students in the student database whose gpa is within the input range
 def search_students_by_gpa(gpa_range): #3.50,4.00
     @USAGE:
         python3 project_backend_basics.py search_students_by_gpa 3.50,3.98
@@ -167,7 +167,7 @@ def modify_student_info(student_info): #json_string input
               Error: + Exception
               
 
-# find info of all students in the student database who is taking one or more classes together with the student that has the given student_id.
+// find info of all students in the student database who is taking one or more classes together with the student that has the given student_id.
 def search_classmates_from_student_id(student_id):
     @USAGE:
         python3 project_backend_basics.py search_classmates_from_student_id 9
@@ -200,7 +200,7 @@ def search_classmates_from_student_id(student_id):
               Error: student with student_id 10000 either is not enrolled in any courses or does not have any classmates.
 
 
-# find info of all students in the student database who is taught by professor with the specified professor_id
+// find info of all students in the student database who is taught by professor with the specified professor_id
 def search_students_from_professor_id(professor_id):
     @USAGE:
         python3 project_backend_basics.py search_students_from_professor_id 3
@@ -225,7 +225,7 @@ def search_students_from_professor_id(professor_id):
               Error: professor with professor_id 4000 either is not teaching any courses or no student is enrolled in the course.
 
 
-# database mangaer operation: insert many rows of course enrollment information into the database
+// database mangaer operation: insert many rows of course enrollment information into the database
 def student_enroll_many_course(csv_file)
     @USAGE:
         python3 project_backend_basics.py student_enroll_many_course input.csv
@@ -235,13 +235,14 @@ def student_enroll_many_course(csv_file)
             DCS101,15
     @NOTE: This is a manager operation, no format check and seat_available check!
 
-
-# increase the number of student database by {incresement}
-# if there are databases student1, student2, student3, and user runs scale_db(5)
-# then databases student4, student5 will be created
-# all data in student1-3 will be taken out, hashed, and reinsert into student1-5
-# databases according to the new hash result.
-# for detailed procedure, please check the comments of scale_db() in project_backend_basics.py
+/*
+increase the number of student database by {incresement}
+if there are databases student1, student2, student3, and user runs scale_db(5)
+then databases student4, student5 will be created
+all data in student1-3 will be taken out, hashed, and reinsert into student1-5
+databases according to the new hash result.
+for detailed procedure, please check the comments of scale_db() in project_backend_basics.py
+*/
 def scale_db(increasement): # increasement = num of db to increase
     @USAGE:
         python3 project_backend_basics.py scale_db 1
