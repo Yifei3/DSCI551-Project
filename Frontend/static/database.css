@@ -1,0 +1,321 @@
+body{
+    background-image: url('../static/background.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.overlay {
+  margin-top:10px;
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.box {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:40px;
+  margin-bottom:40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 600px;
+  height:auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.result_box {
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:40px;
+  margin-bottom:40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 800px;
+  height:auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.container {
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:auto;
+    margin-right:auto;
+    justify-content:center;
+    font-family:Calibri;
+    font-size:25px;
+    color:#222222;
+}
+
+.carousel-inner {
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.nav-link {
+    color: #222222!important;
+}
+.nav-link:hover {
+    color: #B5B5B5 !important; /* 鼠标悬停时的颜色 */
+}
+.nav-link.active, .nav-link:focus {
+    color: #EEA2AD !important; /* 被点击时的颜色 */
+}
+
+
+
+.row1 {
+    background-color: rgba(238, 162, 173, 0.3); /* 使用 rgba() 函数定义带有透明度的颜色 */
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top:10px;
+}
+
+
+.row1 .col-md-12 {
+    display: flex;
+    flex-direction: column; /* 垂直布局 */
+}
+
+.row1 .col-md-12 > div {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+
+.row2 {
+    background-color: rgba(205, 155, 155, 0.2); /* 使用 rgba() 函数定义带有透明度的颜色 */
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    margin-top:10px;
+}
+
+
+.row2 .col-md-12 {
+    display: flex;
+    flex-direction: column; /* 垂直布局 */
+}
+
+.row2 .col-md-12 > div {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+
+.form{
+    display: flex;
+    align-items: center;
+}
+
+
+.title{
+    margin-top:10px;
+    font-family:Georgia;
+    font-size:30px;
+    color:#222222;
+    text-align:center;
+    font-weight:lighter;
+}
+
+.enroll{
+    margin-top:10px;
+    margin-bottom:20px;
+    font-family:Calibri;
+    font-size:30px;
+    color:#222222;
+    text-align:center;
+    font-weight:lighter;
+}
+
+
+label {
+  font-size: 20px;
+  font-family: Calibri;
+  margin-bottom: 0px;
+  color: #222222;
+  text-align: left
+  margin-left: 20px;
+  margin-right: 20px;;
+}
+
+.enroll_label{
+  width: 150px;
+}
+
+
+input[type="text"],
+input[type="number"],
+
+input{
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+.search_input {
+  width: 300px;
+  margin-right: 50px;
+}
+
+
+.enroll_input{
+  width: 300px;
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+.withdraw_input{
+  width: 180px;
+  margin-right: 20px
+}
+
+
+.gpa_input{
+  width: 180px;
+  margin-right: 5px
+}
+
+.long_input{
+  width: 200px;
+}
+
+select {
+  opacity:1;
+  background-color: transparent;
+  border: 1px solid #222222;
+  font-family:Calibri;
+  padding: 5px;
+  font-size: 16px;
+  margin-top:5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  color: #222222;
+  height:40px;
+}
+
+
+select option{
+    color: #222222;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+  width: 13px;
+  margin-left:20px;
+  margin-bottom: 0px;
+}
+
+
+
+
+
+button[type="submit"] {
+  background-color: #EEA2AD;
+  color: white;
+  width: 80px;
+  height: 33px;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  margin:3px;
+}
+
+
+button[type="submit"]:hover {
+  background-color: #FFAEB9;
+}
+
+button[type="submit"]:active {
+  background-color: #EEA2AD !important;
+}
+
+.button_border{
+margin-top:10px;
+}
+
+
+.searchResults{
+     width:1200px;
+     height:100%;
+     margin-left:auto;
+     margin-right:auto;
+     background-color: rgba(255, 255, 255, 0);
+   }
+
+
+
+.searchtable{
+    border-collapse: collapse;
+    font-family:Calibri;
+    font-size: 15px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:20px;
+    margin-bottom:20px;
+    width: 700px;
+    text-color: black;
+    text-align: center;
+    background-color: transparent;
+}
+
+
+.searchtable td,th{
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.searchtable thead tr,th{
+    font-family:Calibri;
+    color:balck;
+    font-size: 15px;
+}
+
+
+
+.errorBox{
+      font-family:Calibri;
+      background: transparent;
+      color: #FFC1C1;
+      text-align: center;
+      padding: 1vw;
+      width:500px;
+      margin: 2vw;
+      margin-top:100px;
+      margin-bottom:100px;
+      margin-left:auto;
+      margin-right:auto;
+      font-weight: bold;
+      font-size: 30px;
+}
+
+

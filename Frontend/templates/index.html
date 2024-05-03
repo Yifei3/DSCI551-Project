@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>University Staff & Student Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/database.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="box">
+<div class="title">University Staff & Student Database</div>
+<hr width="95%" height="1px"; color="#FFC1C1" border="none"/>
+
+<div class="container">
+        <ul class="nav nav-tabs mx-auto d-flex justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#search" onclick="showPage('#search')">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#enroll" onclick="showPage('#enroll')">Enroll</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#withdraw" onclick="showPage('#withdraw')">Withdraw</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#update" onclick="showPage('#update')">Update</a>
+            </li>
+        </ul>
+
+        <!-- create Carousel -->
+        <div id="myCarousel" class="carousel slide mt-4" data-ride="false">
+            <div class="carousel-inner">
+                <!-- Search page -->
+            <div class="carousel-item active" id="search">
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Get student information</label></div>
+                <form action="/get_student_info" method="post">
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row2">
+            <div class="col-md-12">
+                <div><label>Get professor information</label></div>
+                <form action="/get_professor_info" method="post">
+                <input type="number" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Get course information</label></div>
+                <form action="/get_course_info" method="post">
+                <input type="text" name="data" class="search_input" placeholder='Please enter course id, e.g. "CS101"' required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="col-md-12">
+                    <div><label>Search students by GPA</label></div>
+                <form action="/search_students_by_gpa" method="post">
+                <input type="number" name="min_gpa" class="gpa_input" placeholder='Please enter min GPA' step="0.01" required>  <input type="number" name="max_gpa" class="gpa_input" placeholder='Please enter max GPA' step="0.01" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Search students by professor id</label></div>
+               <form action="/search_students_from_professor_id" method="post">
+                <input type="number" name="data" class="search_input" placeholder="Please enter professor id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="col-md-12">
+                <div><label>Search classmates by student id</label></div>
+                <form action="/search_classmates_from_student_id" method="post">
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="col-md-12">
+                <div><label>Search students by name</label></div>
+                <form action="/search_students_by_name" method="post">
+                <input type="text" name="data" class="search_input" placeholder="Please enter student name" required>
+                <button type="submit" class="btn btn-primary">search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+                <!-- Enroll 页面 -->
+            <div class="carousel-item" id="enroll">
+        <div class="row1">
+            <div class="enroll">Enroll student</div>
+            <form action="/enroll_student" method="post">
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student name</label>
+                <input type="text" class="enroll_input" name="student_name" placeholder="Please enter student name" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Gender</label>
+                        <select class="enroll_input" name="gender" required>
+                            <option value="" disabled selected>Please select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                <div>
+                    <label class="enroll_label">Email</label>
+                <input type="text" class="enroll_input"  name="email" placeholder="Please enter email" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Department id</label>
+                <input type="number" class="enroll_input"  name="department_id" placeholder='Please enter department id, e.g. "2"' required>
+                    </div>
+                <div>
+                    <label class="enroll_label">GPA</label>
+                <input type="number" class="enroll_input"  name="gpa" placeholder='Please enter GPA, e.g. "3.65"' step="0.01" required>
+                    </div>
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
+            </form>
+        </div>
+
+
+        <div class="row1" style="margin-top: 20px;">
+            <div class="enroll">Student enroll course</div>
+            <form action="/student_enroll_course" method="post">
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student id</label>
+                <input type="number" name="student_id" class="enroll_input" placeholder="Please enter student id" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Course id</label>
+                <input type="text" name="course_id" class="enroll_input" placeholder="Please enter course id" required>
+                    </div>
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">enroll</button></div>
+            </form>
+        </div>
+    </div>
+
+
+
+                <!-- Withdraw 页面 -->
+            <div class="carousel-item" id="withdraw">
+        <div class="row1">
+            <div class="col-md-12">
+                    <div><label>Withdraw student</label></div>
+                <form action="/withdraw_student" method="post">
+                <input type="number" name="data" class="search_input" placeholder="Please enter student id" required>
+                <button type="submit" class="btn btn-primary">withdraw</button>
+                    </form>
+            </div>
+        </div>
+
+        <div class="row2">
+            <div class="col-md-12">
+                    <div><label>Student withdraw course</label></div>
+                <form action="/student_withdraw_course" method="post">
+                <input type="number" name="student_id" class="withdraw_input" placeholder="Please enter student id" required>
+                <input type="text" name="course_id" class="withdraw_input" placeholder="Please enter course id" required>
+                <button type="submit" class="btn btn-primary">withdraw</button>
+                    </form>
+            </div>
+        </div>
+                </div>
+
+
+                <!-- Update 页面 -->
+            <div class="carousel-item" id="update">
+        <div class="row1">
+            <div class="enroll">Modify student information</div>
+            <form action="/modify_student_info" method="post">
+            <div class="col-md-12">
+                <div>
+                    <label class="enroll_label">Student id</label>
+                <input type="number" class="enroll_input" name="student_id" placeholder="Please enter student id" required>
+                    </div>
+                <div>
+                    <label class="enroll_label">Attribute</label>
+                        <select id="attributeSelect"  name="attribute" class="enroll_input" required>
+                            <option value="" disabled selected>Please select</option>
+                            <option value="student_name">Student name</option>
+                            <option value="gender">Gender</option>
+                            <option value="email">Email</option>
+                            <option value="department_id">Department id</option>
+                            <option value="gpa">GPA</option>
+                        </select>
+                </div>
+                <div id="newValueInput">
+                    <label class="enroll_label">New value</label>
+                <input type="text" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>
+                </div>
+
+                <script>
+                    document.getElementById('attributeSelect').addEventListener('change', function() {
+                        var selectedValue = this.value;
+                        var newValueInput = document.getElementById('newValueInput');
+                        var newValueInputHtml = '<label class="enroll_label">New value</label>';
+
+                        if (selectedValue === 'gender') {
+                             newValueInputHtml += '<select id="newValue" name="newValue" class="enroll_input" required>' +
+                                    '<option value="" disabled selected>Please select</option>' +
+                                    '<option value="male">Male</option>' +
+                                    '<option value="female">Female</option>' +
+                                    '<option value="other">Other</option>' +
+                                '</select>';
+                        }  else if ( selectedValue === 'department_id'){
+                            newValueInputHtml += '<input type="number" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>';
+                        }  else if ( selectedValue === 'gpa'){
+                            newValueInputHtml += '<input type="number" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" step="0.01" required>';
+                        }  else {
+                            newValueInputHtml += '<input type="text" id="newValue" name="newValue" class="enroll_input" placeholder="Please enter new value" required>';
+                        }
+                        newValueInput.innerHTML = newValueInputHtml;
+                    });
+                </script>
+
+            </div>
+            <div class="enroll"><button type="submit" class="btn btn-primary">modify</button></div>
+            </form>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
