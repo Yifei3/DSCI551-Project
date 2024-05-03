@@ -7,6 +7,12 @@ Yifei Li, Chang Li, Zhenyu Huang
 
 
 HOW TO:
+    
+    open the web application:
+        1.Download the "Frontend" folder
+        2.Run the main.py file (python main.py)
+        3.After starting the server, open a web browser and go to the following URL: http://127.0.0.1:5000, and this will launch the app in your browser.
+
     connect to the ec2 server:
         ssh -i "dsci551-sp24.pem" ubuntu@ec2-3-137-144-14.us-east-2.compute.amazonaws.com (ec2 address subject to change after reboot)
         Passkey pem file is included in the github repo, user can download it and change premission.
@@ -39,14 +45,6 @@ NOTE:
 
     6. If during testing, the premission of user dsci551 is not enough. One can log out and relogin with mysql -u root -p. Password is the same.
 
-
-How to open the web application:
-
-1.Download the "Frontend" folder
-
-2.Run the main.py file (python main.py)
-
-3.After starting the server, open a web browser and go to the following URL: http://127.0.0.1:5000, and this will launch the app in your browser.
 
 
 Backend documentation:
