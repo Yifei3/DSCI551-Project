@@ -36,7 +36,7 @@ NOTE:
        If user encounters such issue, please email Yifei Li at yli78495@usc.edu so that I can help reboot the server and provide
        you the new ec2 address.
     
-    2. If a new ec2 address is given, user needs to update the ec2 address value at line 16 of main.py file of front end to connect to the ec2 server.
+    2. If a new ec2 address is given, user needs to update the ec2 address value at line 16 of Frontend/main.py file to connect to the ec2 server.
     
     3. scale_db() and enroll_many_course() are manager operations, there aren't many limitations/error checking in the functions. Please use cautiously. After scale_db() is called, user needs to update the value of STUDENT_DATABASE_SIZE at line 21 of project_backend_basics.py so that the hash function can work correctly afterwards. The value is 3 at the beginning.
 
