@@ -4,6 +4,8 @@ Yifei Li, Chang Li, Zhenyu Huang
 
 
 
+
+
 HOW TO:
     connect to the ec2 server:
         ssh -i "dsci551-sp24.pem" ubuntu@ec2-3-137-144-14.us-east-2.compute.amazonaws.com (ec2 address subject to change after reboot)
@@ -36,6 +38,16 @@ NOTE:
     5. After the reset using create_schema.sql, only student1 and student2 are student databases in use. There might exist student3, student4,..., etc, however, they won't have any impact on the program and will be emptied before being used. User can safely disregard these databases.
 
     6. If during testing, the premission of user dsci551 is not enough. One can log out and relogin with mysql -u root -p. Password is the same.
+
+
+How to open the web application:
+
+1.Download the "Frontend" folder
+
+2.Run the main.py file (python main.py)
+
+3.After starting the server, open a web browser and go to the following URL: http://127.0.0.1:5000, and this will launch the app in your browser.
+
 
 Backend documentation:
 
@@ -246,3 +258,11 @@ def scale_db(increasement): # increasement = num of db to increase
     @USAGE:
         python3 project_backend_basics.py scale_db 1
     @NOTE: This is a manager operation, change value of STUDENT_DATABASE_SIZE at line 21 of project_backend_basics.py after operation!
+
+
+
+
+
+
+
+
